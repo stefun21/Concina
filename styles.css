@@ -659,3 +659,101 @@ button:disabled { cursor: not-allowed; opacity: .42; }
     height: 32px;
   }
 }
+
+/* Mobile polish v7: centered brand mark, flexible status panel, better vertical rhythm */
+@media (max-width: 720px) {
+  .brand-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    text-align: center;
+    overflow: hidden;
+    font-size: 0;
+  }
+
+  .brand-mark::before {
+    content: "C";
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    font-weight: 900;
+    line-height: 1;
+    transform: translateY(-0.5px);
+  }
+
+  .game-table {
+    justify-content: center;
+    gap: clamp(14px, 1.9dvh, 20px);
+    padding-block: clamp(12px, 1.8dvh, 18px);
+  }
+
+  .opponent-row {
+    gap: clamp(7px, 1dvh, 10px);
+  }
+
+  .center-zone {
+    margin-block: clamp(2px, .5dvh, 5px);
+  }
+
+  .status-bar {
+    height: auto;
+    min-height: 38px;
+    max-height: none;
+    padding: 6px 12px;
+    line-height: 1.28;
+    overflow: visible;
+    text-wrap: balance;
+  }
+
+  .player-row {
+    gap: clamp(7px, 1dvh, 10px);
+  }
+}
+
+@media (max-width: 430px) {
+  .brand-mark::before {
+    font-size: 16px;
+  }
+
+  .game-table {
+    gap: clamp(13px, 1.8dvh, 18px);
+    padding-block: clamp(11px, 1.6dvh, 16px);
+  }
+
+  .status-bar {
+    min-height: 40px;
+    padding-inline: 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-mark::before {
+    font-size: 15px;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 720px) {
+  .game-table {
+    gap: 8px;
+    padding-block: 6px;
+  }
+
+  .opponent-row,
+  .player-row {
+    gap: 5px;
+  }
+
+  .center-zone {
+    margin-block: 0;
+  }
+
+  .status-bar {
+    height: auto;
+    min-height: 32px;
+    padding-block: 5px;
+    line-height: 1.2;
+  }
+}

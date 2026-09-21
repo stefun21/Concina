@@ -70,3 +70,8 @@ The mobile layout is optimized for a single-screen game experience: compact spac
 - Short screens automatically use a more compact card size.
 - Table cards switch to compact layouts sooner as the table grows.
 - Mobile tap targets and selected-card spacing were refined to avoid overlaps.
+
+## Mobile polish v7
+- Centered the Concina C mark precisely inside its square on mobile.
+- Status/info bar now grows for wrapped two-line messages instead of clipping them.
+- Increased vertical rhythm between opponent, table, status and player sections while keeping the whole scene centered and scroll-free.
