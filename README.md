@@ -49,8 +49,8 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 - `vercel.json` — simple Vercel static configuration
 - `favicon.svg` — project icon
 
-- The Info button is always available in the header.
-- Pause freezes the game, including pending computer actions, until Resume is pressed.
+- Scoring and How to Play remain available from the header.
+- New Game asks for confirmation before resetting the current match.
 
 
 ## UI notes
@@ -58,3 +58,5 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 - Round UI and round numbering are intentionally removed.
 - Player cards do not reveal capture hints or availability states.
 - Card dealing uses a short staggered animation.
+
+- Mobile layout fits the gameplay into the viewport without page scrolling.

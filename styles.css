@@ -14,6 +14,8 @@
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
   --card-w: 86px;
   --card-h: 124px;
+  --table-card-w: var(--card-w);
+  --table-card-h: var(--card-h);
 }
 
 * { box-sizing: border-box; }
@@ -104,7 +106,8 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .section-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
 .turn-pill { color: #06231a; background: var(--accent); border-radius: 999px; padding: 6px 10px; font-weight: 900; text-transform: none; letter-spacing: 0; }
 .turn-pill.ai { background: rgba(255,255,255,.08); color: var(--text); }
-.table-cards { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 11px; min-height: var(--card-h); }
+.table-cards { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; gap: 11px; min-height: var(--table-card-h); }
+.table-cards .playing-card { width: var(--table-card-w); height: var(--table-card-h); }
 .empty-table { min-height: var(--card-h); display: grid; place-items: center; border: 1px dashed rgba(255,255,255,.1); border-radius: 16px; color: var(--muted); }
 
 .playing-card {
@@ -193,48 +196,144 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 }
 
 @media (max-width: 720px) {
-  :root { --card-w: 68px; --card-h: 98px; }
-  .app-shell { padding: 14px 12px 18px; }
-  .topbar { align-items: flex-start; }
+  :root {
+    --card-w: 58px;
+    --card-h: 84px;
+    --table-card-w: 48px;
+    --table-card-h: 70px;
+  }
+
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body { min-height: 100dvh; }
+  .app-shell {
+    width: 100%; height: 100dvh; min-height: 0;
+    padding: 8px; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .topbar {
+    flex: 0 0 auto; min-height: 38px; margin-bottom: 7px; gap: 8px;
+    align-items: center;
+  }
+  .brand-wrap { flex: 0 0 auto; gap: 7px; }
+  .brand-mark { width: 36px; height: 36px; border-radius: 11px; font-size: 20px; }
   .brand-wrap p { display: none; }
-  .game-table { border-radius: 20px; padding: 16px 12px; gap: 14px; }
-  .center-zone { grid-template-columns: 80px 1fr; }
-  .center-zone::after { display: none; }
-  .deck-stack { width: 57px; height: 80px; transform: scale(.78); }
-  .deck-area { align-self: center; }
-  .opponent-row { min-height: 105px; }
+  .brand-wrap h1 { font-size: 19px; }
+  .top-actions {
+    flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: nowrap;
+    justify-content: flex-end; gap: 5px;
+  }
+  .top-actions .icon-button, .top-actions .primary {
+    min-height: 34px; height: 34px; padding: 0 9px; border-radius: 10px;
+    font-size: 11px; white-space: nowrap;
+  }
+
+  .game-layout { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  .game-table {
+    height: 100%; min-height: 0; border-radius: 18px; padding: 9px 8px;
+    gap: 6px; overflow: hidden; justify-content: space-between;
+  }
+  .game-table::before { inset: 6px; border-radius: 14px; }
+
+  .opponent-row { flex: 0 0 auto; min-height: 72px; gap: 0; }
   .opponent-badge { display: none; }
-  .opponent-hand { width: 100%; margin: 0; }
-  .player-info-line { align-items: flex-end; }
-  .selection-help { max-width: 45%; text-align: right; }
-  .playing-card .card-corner { left: 6px; top: 5px; font-size: 15px; }
-  .playing-card .card-corner.bottom { left: auto; top: auto; right: 6px; bottom: 5px; }
-  .playing-card .card-corner .suit { font-size: 13px; }
-  .playing-card .card-center { font-size: 31px; }
-  .opponent-hand .playing-card + .playing-card, .player-hand .playing-card + .playing-card { margin-left: -18px; }
+  .opponent-hand { width: 100%; margin: 0; min-height: var(--card-h); }
+  .opponent-hand .playing-card + .playing-card,
+  .player-hand .playing-card + .playing-card { margin-left: -13px; }
+
+  .center-zone {
+    flex: 1 1 auto; min-height: 0; margin: 0;
+    display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 5px;
+    align-items: stretch;
+  }
+  .deck-area { align-self: center; gap: 5px; }
+  .deck-stack { width: 48px; height: 66px; transform: scale(.64); transform-origin: center; }
+  .deck-count strong { font-size: 14px; }
+  .deck-count span { font-size: 8px; }
+  .table-area {
+    min-height: 0; height: 100%; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .section-title { flex: 0 0 auto; margin-bottom: 4px; font-size: 9px; }
+  .turn-pill { padding: 4px 7px; font-size: 9px; }
+  .table-cards {
+    flex: 1 1 auto; min-height: 0; overflow: hidden;
+    gap: 4px; align-content: center;
+  }
+  .table-cards.dense { --table-card-w: 39px; --table-card-h: 56px; gap: 3px; }
+  .table-cards.ultra-dense { --table-card-w: 30px; --table-card-h: 43px; gap: 2px; }
+  .empty-table { flex: 1 1 auto; min-height: 0; font-size: 11px; }
+
+  .playing-card .card-corner { left: 5px; top: 4px; font-size: 13px; }
+  .playing-card .card-corner.bottom { left: auto; top: auto; right: 5px; bottom: 4px; }
+  .playing-card .card-corner .suit { font-size: 11px; margin-top: 3px; }
+  .playing-card .card-center { font-size: 27px; }
+  .table-cards .playing-card .card-corner { left: 4px; top: 3px; font-size: 11px; }
+  .table-cards .playing-card .card-corner.bottom { left: auto; top: auto; right: 4px; bottom: 3px; }
+  .table-cards .playing-card .card-corner .suit { font-size: 9px; margin-top: 2px; }
+  .table-cards .playing-card .card-center { font-size: 21px; }
+  .table-cards.ultra-dense .card-corner.bottom { display: none; }
+  .table-cards.ultra-dense .card-center { font-size: 17px; }
+
+  .status-bar {
+    flex: 0 0 auto; min-height: 30px; height: 30px; padding: 5px 8px; border-radius: 9px;
+    font-size: 10px; line-height: 1.2; overflow: hidden;
+  }
+  .player-row { flex: 0 0 auto; gap: 5px; }
+  .player-info-line { gap: 8px; min-height: 30px; }
+  .player-badge .avatar { width: 30px; height: 30px; font-size: 8px; }
+  .player-badge strong { font-size: 11px; }
+  .player-badge span:last-child { font-size: 9px; }
+  .selection-help { max-width: 42%; text-align: right; font-size: 9px; }
+  .player-hand { min-height: var(--card-h); }
+  .action-row { gap: 7px; }
+  .action-row button { min-height: 34px; height: 34px; padding-inline: 12px; font-size: 11px; border-radius: 10px; }
+
   .rules-grid { grid-template-columns: 1fr; }
   .breakdown-row { grid-template-columns: 1fr 62px 62px; }
+  .modal { padding: 12px; }
+  .modal-card { max-height: 90dvh; padding: 18px; border-radius: 18px; }
 }
 
 @media (max-width: 430px) {
-  :root { --card-w: 61px; --card-h: 88px; }
-  .brand-mark { width: 38px; height: 38px; border-radius: 12px; font-size: 21px; }
-  .brand-wrap h1 { font-size: 21px; }
-  .top-actions .primary { min-height: 38px; }
-  .center-zone { grid-template-columns: 60px 1fr; }
-  .deck-area { transform: scale(.88); }
-  .table-cards { gap: 7px; }
-  .player-hand { min-height: 104px; }
-  .action-row button { min-height: 40px; padding-inline: 13px; }
+  :root {
+    --card-w: 54px;
+    --card-h: 78px;
+    --table-card-w: 44px;
+    --table-card-h: 63px;
+  }
+  .app-shell { padding: 6px; }
+  .topbar { gap: 5px; margin-bottom: 5px; min-height: 34px; }
+  .brand-wrap > div { display: none; }
+  .brand-mark { width: 32px; height: 32px; border-radius: 10px; font-size: 18px; }
+  .top-actions { gap: 4px; }
+  .top-actions .icon-button, .top-actions .primary {
+    min-height: 32px; height: 32px; padding: 0 7px; font-size: 10px; border-radius: 9px;
+  }
+  .game-table { padding: 7px 6px; gap: 4px; border-radius: 16px; }
+  .opponent-row { min-height: 65px; }
+  .center-zone { grid-template-columns: 48px minmax(0, 1fr); gap: 3px; }
+  .deck-area { transform: scale(.9); }
+  .table-cards { gap: 3px; }
+  .table-cards.dense { --table-card-w: 36px; --table-card-h: 52px; gap: 2px; }
+  .table-cards.ultra-dense { --table-card-w: 28px; --table-card-h: 40px; gap: 2px; }
+  .player-info-line { min-height: 28px; }
+  .status-bar { min-height: 28px; height: 28px; }
 }
 
-.pause-card { width: min(430px, 100%); text-align: center; }
-.pause-card h2 { margin: 7px 0 8px; font-size: 28px; }
-.pause-card p { margin: 0 0 22px; color: var(--muted); line-height: 1.55; }
-.pause-icon { width: 62px; height: 62px; margin: 0 auto 14px; border-radius: 19px; display: grid; place-items: center; background: rgba(117,231,174,.12); color: var(--accent); border: 1px solid rgba(117,231,174,.2); font-size: 28px; font-weight: 900; letter-spacing: 3px; }
-
-@media (max-width: 430px) {
-  .topbar { gap: 10px; }
-  .top-actions { gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-  .top-actions .icon-button, .top-actions .primary { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding-inline: 10px; font-size: 12px; }
+@media (max-height: 700px) and (max-width: 720px) {
+  :root { --card-w: 50px; --card-h: 72px; --table-card-w: 40px; --table-card-h: 57px; }
+  .brand-mark { width: 30px; height: 30px; font-size: 17px; }
+  .top-actions .icon-button, .top-actions .primary { min-height: 30px; height: 30px; font-size: 10px; }
+  .topbar { min-height: 30px; margin-bottom: 4px; }
+  .game-table { padding: 5px; gap: 3px; }
+  .opponent-row { min-height: 58px; }
+  .status-bar { min-height: 25px; height: 25px; padding-block: 3px; }
+  .player-info-line { min-height: 24px; }
+  .action-row button { min-height: 30px; height: 30px; }
+  .table-cards.dense { --table-card-w: 33px; --table-card-h: 47px; }
+  .table-cards.ultra-dense { --table-card-w: 25px; --table-card-h: 36px; }
 }
+
+.confirm-card { width: min(430px, 100%); text-align: center; }
+.confirm-card h2 { margin: 7px 0 8px; font-size: 28px; }
+.confirm-card p { margin: 0 0 22px; color: var(--muted); line-height: 1.55; }
+.confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }

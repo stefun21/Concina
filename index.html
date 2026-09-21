@@ -22,7 +22,6 @@
       <div class="top-actions">
         <button class="icon-button" id="scoringBtn" type="button" aria-label="Open scoring rules">Scoring</button>
         <button class="icon-button" id="rulesBtn" type="button" aria-label="Open how to play">How to Play</button>
-        <button class="icon-button" id="pauseBtn" type="button" aria-label="Pause game">Pause</button>
         <button class="primary small" id="newGameBtn" type="button">New game</button>
       </div>
     </header>
@@ -104,7 +103,6 @@
         <div><strong>No capture</strong><p>If none of your hand cards can capture, you must place one card face up on the table.</p></div>
         <div><strong>New deal</strong><p>When both hands are empty, each player receives 4 fresh cards while the deck still has cards.</p></div>
         <div><strong>Final table</strong><p>After the final hands are played, remaining table cards go to the player who made the last capture.</p></div>
-        <div><strong>Pause</strong><p>Use the Pause button at any time. The computer turn timer also stops until you press Resume.</p></div>
       </div>
       <div class="modal-footer"><button class="primary" type="button" data-close-modal>Got it</button></div>
     </div>
@@ -130,14 +128,16 @@
       <div class="modal-footer"><button class="primary" type="button" data-close-scoring>Got it</button></div>
     </div>
   </div>
-  <div class="modal hidden" id="pauseModal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card pause-card">
-      <div class="pause-icon" aria-hidden="true">Ⅱ</div>
-      <span class="eyebrow">Game paused</span>
-      <h2 id="pauseTitle">Take a break</h2>
-      <p>Your game is frozen exactly where you left it.</p>
-      <button class="primary wide" id="resumeBtn" type="button">Resume game</button>
+  <div class="modal hidden" id="newGameModal" role="dialog" aria-modal="true" aria-labelledby="newGameTitle">
+    <div class="modal-backdrop" data-close-new-game></div>
+    <div class="modal-card confirm-card">
+      <span class="eyebrow">New game</span>
+      <h2 id="newGameTitle">Start a new game?</h2>
+      <p>Your current game will be lost and the deck will be shuffled again.</p>
+      <div class="confirm-actions">
+        <button class="secondary" id="cancelNewGameBtn" type="button">Cancel</button>
+        <button class="primary" id="confirmNewGameBtn" type="button">Start new game</button>
+      </div>
     </div>
   </div>
 

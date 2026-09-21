@@ -37,7 +37,6 @@
     animateTableDeal: false,
     busy: false,
     gameOver: false,
-    paused: false,
     pendingTimer: null,
     pendingAction: null,
   };
@@ -57,12 +56,12 @@
     clearSelectionBtn: document.getElementById('clearSelectionBtn'),
     scoringBtn: document.getElementById('scoringBtn'),
     rulesBtn: document.getElementById('rulesBtn'),
-    pauseBtn: document.getElementById('pauseBtn'),
     newGameBtn: document.getElementById('newGameBtn'),
     rulesModal: document.getElementById('rulesModal'),
     scoringModal: document.getElementById('scoringModal'),
-    pauseModal: document.getElementById('pauseModal'),
-    resumeBtn: document.getElementById('resumeBtn'),
+    newGameModal: document.getElementById('newGameModal'),
+    cancelNewGameBtn: document.getElementById('cancelNewGameBtn'),
+    confirmNewGameBtn: document.getElementById('confirmNewGameBtn'),
     scoreModal: document.getElementById('scoreModal'),
     winnerText: document.getElementById('winnerText'),
     finalPlayerScore: document.getElementById('finalPlayerScore'),
@@ -106,8 +105,14 @@
     }
   }
 
+  function blockingModalOpen() {
+    return !els.rulesModal.classList.contains('hidden')
+      || !els.scoringModal.classList.contains('hidden')
+      || !els.newGameModal.classList.contains('hidden');
+  }
+
   function runPendingAction() {
-    if (state.paused || !els.rulesModal.classList.contains('hidden') || !els.scoringModal.classList.contains('hidden')) return;
+    if (blockingModalOpen()) return;
     const action = state.pendingAction;
     state.pendingAction = null;
     state.pendingTimer = null;
@@ -118,7 +123,7 @@
   function scheduleAction(action, delay) {
     clearPendingTimer();
     state.pendingAction = action;
-    if (state.paused || !els.rulesModal.classList.contains('hidden') || !els.scoringModal.classList.contains('hidden')) return;
+    if (blockingModalOpen()) return;
     state.pendingTimer = window.setTimeout(runPendingAction, delay);
   }
 
@@ -134,11 +139,10 @@
     state.lastCapturer = null;
     state.busy = false;
     state.gameOver = false;
-    state.paused = false;
     state.pendingAction = null;
-    els.pauseModal.classList.add('hidden');
     els.rulesModal.classList.add('hidden');
     els.scoringModal.classList.add('hidden');
+    els.newGameModal.classList.add('hidden');
 
     for (let i = 0; i < 4; i++) state.table.push(state.deck.pop());
     state.animateTableDeal = true;
@@ -223,7 +227,7 @@
   }
 
   function onHandCardClick(cardId) {
-    if (state.busy || state.turn !== 'player' || state.gameOver || state.paused) return;
+    if (state.busy || state.turn !== 'player' || state.gameOver) return;
     state.selectedHandId = state.selectedHandId === cardId ? null : cardId;
     state.selectedTableIds.clear();
 
@@ -234,7 +238,7 @@
   }
 
   function onTableCardClick(cardId) {
-    if (state.busy || state.turn !== 'player' || state.gameOver || state.paused || !selectedHandCard()) return;
+    if (state.busy || state.turn !== 'player' || state.gameOver || !selectedHandCard()) return;
     const handCard = selectedHandCard();
     const card = state.table.find(c => c.id === cardId);
     if (!card) return;
@@ -277,7 +281,7 @@
   }
 
   function playSelected() {
-    if (state.busy || state.turn !== 'player' || state.gameOver || state.paused) return;
+    if (state.busy || state.turn !== 'player' || state.gameOver) return;
     const handCard = selectedHandCard();
     if (!handCard) return;
 
@@ -336,7 +340,7 @@
   }
 
   function aiTurn() {
-    if (state.gameOver || state.paused) return;
+    if (state.gameOver) return;
     const move = chooseAiMove();
     if (!move || !move.card) {
       state.busy = false;
@@ -360,7 +364,6 @@
   }
 
   function afterTurnCycle() {
-    if (state.paused) return;
     if (state.hands.player.length === 0 && state.hands.ai.length === 0) {
       if (state.deck.length > 0) {
         dealHands();
@@ -493,6 +496,8 @@
 
   function renderTable() {
     els.tableCards.innerHTML = '';
+    els.tableCards.classList.toggle('dense', state.table.length > 10);
+    els.tableCards.classList.toggle('ultra-dense', state.table.length > 18);
 
     state.table.forEach((card, index) => {
       els.tableCards.appendChild(makeCardElement(card, {
@@ -507,9 +512,8 @@
   function renderControls() {
     const captureValid = isValidSelectedCapture();
     const discardValid = canDiscardSelected();
-    els.playBtn.disabled = state.paused || state.turn !== 'player' || state.busy || !state.selectedHandId;
-    els.clearSelectionBtn.disabled = state.paused || state.turn !== 'player' || state.busy || (!state.selectedHandId && state.selectedTableIds.size === 0);
-    els.pauseBtn.disabled = state.gameOver || state.paused;
+    els.playBtn.disabled = state.turn !== 'player' || state.busy || !state.selectedHandId;
+    els.clearSelectionBtn.disabled = state.turn !== 'player' || state.busy || (!state.selectedHandId && state.selectedTableIds.size === 0);
 
     els.playBtn.textContent = 'Play card';
 
@@ -523,8 +527,8 @@
     els.aiCapturedLabel.textContent = `${state.captured.ai.length} captured`;
 
     const aiTurnActive = state.turn === 'ai' || state.busy;
-    els.turnPill.textContent = state.paused ? 'Paused' : (aiTurnActive ? 'Computer turn' : 'Your turn');
-    els.turnPill.classList.toggle('ai', aiTurnActive || state.paused);
+    els.turnPill.textContent = aiTurnActive ? 'Computer turn' : 'Your turn';
+    els.turnPill.classList.toggle('ai', aiTurnActive);
   }
 
   function render() {
@@ -543,7 +547,7 @@
 
   function closeRules() {
     els.rulesModal.classList.add('hidden');
-    if (!state.paused && state.pendingAction) scheduleAction(state.pendingAction, 180);
+    if (state.pendingAction) scheduleAction(state.pendingAction, 180);
   }
 
 
@@ -554,40 +558,39 @@
 
   function closeScoring() {
     els.scoringModal.classList.add('hidden');
-    if (!state.paused && state.pendingAction) scheduleAction(state.pendingAction, 180);
+    if (state.pendingAction) scheduleAction(state.pendingAction, 180);
   }
 
-  function pauseGame() {
-    if (state.gameOver || state.paused) return;
-    state.paused = true;
+  function openNewGameConfirm() {
     clearPendingTimer();
-    els.pauseModal.classList.remove('hidden');
-    setStatus('Game paused. Resume when you are ready.');
-    render();
+    els.newGameModal.classList.remove('hidden');
   }
 
-  function resumeGame() {
-    if (!state.paused) return;
-    state.paused = false;
-    els.pauseModal.classList.add('hidden');
-    setStatus(state.turn === 'ai' || state.busy ? 'Computer turn.' : 'Your turn. Select a card from your hand.');
-    render();
-    if (state.pendingAction) scheduleAction(state.pendingAction, 250);
+  function closeNewGameConfirm() {
+    els.newGameModal.classList.add('hidden');
+    if (state.pendingAction) scheduleAction(state.pendingAction, 180);
+  }
+
+  function confirmNewGame() {
+    els.newGameModal.classList.add('hidden');
+    newGame();
   }
 
   els.playBtn.addEventListener('click', playSelected);
   els.clearSelectionBtn.addEventListener('click', clearSelection);
   els.scoringBtn.addEventListener('click', openScoring);
   els.rulesBtn.addEventListener('click', openRules);
-  els.pauseBtn.addEventListener('click', pauseGame);
-  els.resumeBtn.addEventListener('click', resumeGame);
-  els.newGameBtn.addEventListener('click', newGame);
+  els.newGameBtn.addEventListener('click', openNewGameConfirm);
+  els.cancelNewGameBtn.addEventListener('click', closeNewGameConfirm);
+  els.confirmNewGameBtn.addEventListener('click', confirmNewGame);
   els.playAgainBtn.addEventListener('click', newGame);
   document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeRules));
   document.querySelectorAll('[data-close-scoring]').forEach(el => el.addEventListener('click', closeScoring));
+  document.querySelectorAll('[data-close-new-game]').forEach(el => el.addEventListener('click', closeNewGameConfirm));
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !els.rulesModal.classList.contains('hidden')) closeRules();
     else if (e.key === 'Escape' && !els.scoringModal.classList.contains('hidden')) closeScoring();
+    else if (e.key === 'Escape' && !els.newGameModal.classList.contains('hidden')) closeNewGameConfirm();
   });
 
   newGame();
