@@ -60,3 +60,6 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 - Card dealing uses a short staggered animation.
 
 - Mobile layout fits the gameplay into the viewport without page scrolling.
+
+## Mobile layout
+The mobile layout is optimized for a single-screen game experience: compact spacing between hands and table, no page scrolling, non-overlapping card hitboxes, adaptive table-card density, and a single-row header with the game title and controls.

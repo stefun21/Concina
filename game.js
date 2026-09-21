@@ -496,8 +496,11 @@
 
   function renderTable() {
     els.tableCards.innerHTML = '';
-    els.tableCards.classList.toggle('dense', state.table.length > 10);
-    els.tableCards.classList.toggle('ultra-dense', state.table.length > 18);
+    const mobileLayout = window.matchMedia('(max-width: 720px)').matches;
+    const denseAt = mobileLayout ? 7 : 10;
+    const ultraDenseAt = mobileLayout ? 14 : 18;
+    els.tableCards.classList.toggle('dense', state.table.length > denseAt);
+    els.tableCards.classList.toggle('ultra-dense', state.table.length > ultraDenseAt);
 
     state.table.forEach((card, index) => {
       els.tableCards.appendChild(makeCardElement(card, {
@@ -591,6 +594,12 @@
     if (e.key === 'Escape' && !els.rulesModal.classList.contains('hidden')) closeRules();
     else if (e.key === 'Escape' && !els.scoringModal.classList.contains('hidden')) closeScoring();
     else if (e.key === 'Escape' && !els.newGameModal.classList.contains('hidden')) closeNewGameConfirm();
+  });
+
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(renderTable, 100);
   });
 
   newGame();
