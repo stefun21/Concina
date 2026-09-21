@@ -233,7 +233,12 @@
 
     const card = selectedHandCard();
     if (!card) setStatus('Select a card from your hand.');
-    else setStatus(`${cardLabel(card)} selected. Choose table cards if you want to capture, then press Play card.`);
+    else {
+      const mobile = window.matchMedia('(max-width: 720px)').matches;
+      setStatus(mobile
+        ? `${cardLabel(card)} selected. Choose table cards, then press Play card.`
+        : `${cardLabel(card)} selected. Choose table cards if you want to capture, then press Play card.`);
+    }
     render();
   }
 

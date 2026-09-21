@@ -75,3 +75,9 @@ The mobile layout is optimized for a single-screen game experience: compact spac
 - Centered the Concina C mark precisely inside its square on mobile.
 - Status/info bar now grows for wrapped two-line messages instead of clipping them.
 - Increased vertical rhythm between opponent, table, status and player sections while keeping the whole scene centered and scroll-free.
+
+## Mobile v8
+- Fixed the mobile logo centering with a non-shrinking square mark.
+- Mobile captured counters are hidden for a cleaner layout.
+- Status panel always reserves two lines and vertically centers one-line messages.
+- Table cards are larger on mobile, with responsive dense modes to prevent overlap.
