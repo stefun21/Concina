@@ -1397,3 +1397,12 @@ button:disabled { cursor: not-allowed; opacity: .42; }
     font-size: 8.5px;
   }
 }
+
+
+/* v12: simplified all-time wins scoreboard; Stats visible on desktop and mobile */
+#statsBtn { display: inline-flex; align-items: center; justify-content: center; }
+.stats-grid-single { grid-template-columns: 1fr; max-width: 240px; margin: 0 auto; }
+.stats-grid-single > div { min-height: 64px; align-content: center; }
+@media (max-width: 720px) {
+  .stats-grid.stats-grid-single { grid-template-columns: 1fr; width: min(220px, 100%); }
+}

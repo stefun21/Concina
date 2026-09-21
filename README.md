@@ -94,4 +94,6 @@ The mobile layout is optimized for a single-screen game experience: compact spac
 - Players may place a card on the table even when a capture is available.
 - Capture-hint messaging was removed.
 - On mobile, the deck stays anchored left and the turn indicator stays anchored right independently of the status panel.
-- Added an all-time Stats scoreboard stored locally in the browser with `localStorage` (games, wins, draws, losses, cumulative points).
+- Added an all-time Stats scoreboard on desktop and mobile, stored locally in the browser with `localStorage` (games played, player wins, computer wins).
+
+- v12: Stats is explicitly available on desktop and mobile; the all-time modal now shows only games played and games won by You / Computer. Draws, losses, and cumulative point totals were removed from the Stats view.

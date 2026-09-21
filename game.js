@@ -72,16 +72,13 @@
     finalAiScore: document.getElementById('finalAiScore'),
     scoreBreakdown: document.getElementById('scoreBreakdown'),
     playAgainBtn: document.getElementById('playAgainBtn'),
-    allTimePlayerPoints: document.getElementById('allTimePlayerPoints'),
-    allTimeAiPoints: document.getElementById('allTimeAiPoints'),
+    allTimePlayerWins: document.getElementById('allTimePlayerWins'),
+    allTimeAiWins: document.getElementById('allTimeAiWins'),
     allTimeGames: document.getElementById('allTimeGames'),
-    allTimeWins: document.getElementById('allTimeWins'),
-    allTimeDraws: document.getElementById('allTimeDraws'),
-    allTimeLosses: document.getElementById('allTimeLosses'),
   };
 
   function defaultAllTimeStats() {
-    return { games: 0, wins: 0, draws: 0, losses: 0, playerPoints: 0, aiPoints: 0 };
+    return { games: 0, playerWins: 0, aiWins: 0 };
   }
 
   function loadAllTimeStats() {
@@ -89,7 +86,13 @@
       const raw = window.localStorage.getItem(ALL_TIME_KEY);
       if (!raw) return defaultAllTimeStats();
       const parsed = JSON.parse(raw);
-      return { ...defaultAllTimeStats(), ...parsed };
+
+      // Migrate v11 stats without losing existing completed-game history.
+      return {
+        games: Number(parsed.games) || 0,
+        playerWins: Number(parsed.playerWins ?? parsed.wins) || 0,
+        aiWins: Number(parsed.aiWins ?? parsed.losses) || 0,
+      };
     } catch (_) {
       return defaultAllTimeStats();
     }
@@ -106,22 +109,16 @@
   function recordAllTimeScore(result) {
     const stats = loadAllTimeStats();
     stats.games += 1;
-    stats.playerPoints += result.playerScore;
-    stats.aiPoints += result.aiScore;
-    if (result.playerScore > result.aiScore) stats.wins += 1;
-    else if (result.aiScore > result.playerScore) stats.losses += 1;
-    else stats.draws += 1;
+    if (result.playerScore > result.aiScore) stats.playerWins += 1;
+    else if (result.aiScore > result.playerScore) stats.aiWins += 1;
     saveAllTimeStats(stats);
     renderAllTimeStats(stats);
   }
 
   function renderAllTimeStats(stats = loadAllTimeStats()) {
-    els.allTimePlayerPoints.textContent = stats.playerPoints;
-    els.allTimeAiPoints.textContent = stats.aiPoints;
+    els.allTimePlayerWins.textContent = stats.playerWins;
+    els.allTimeAiWins.textContent = stats.aiWins;
     els.allTimeGames.textContent = stats.games;
-    els.allTimeWins.textContent = stats.wins;
-    els.allTimeDraws.textContent = stats.draws;
-    els.allTimeLosses.textContent = stats.losses;
   }
 
   function createDeck() {
