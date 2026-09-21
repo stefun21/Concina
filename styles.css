@@ -921,3 +921,194 @@ button:disabled { cursor: not-allowed; opacity: .42; }
     max-height: calc(28dvh - 18px);
   }
 }
+
+/* Mobile polish v9: larger cards, symmetric player labels, overlap-safe selection */
+@media (max-width: 720px) {
+  :root {
+    --card-w: clamp(70px, 18.5vw, 80px);
+    --card-h: clamp(102px, 26.7vw, 116px);
+    --table-card-w: clamp(64px, 17.2vw, 74px);
+    --table-card-h: clamp(92px, 24.8vw, 107px);
+  }
+
+  /* Computer and You use the exact same compact mobile badge treatment. */
+  .opponent-badge,
+  .player-info-line .player-badge {
+    width: auto;
+    min-width: 0;
+    min-height: 30px;
+    padding: 0 12px;
+    border: 1px solid rgba(117, 231, 174, .16);
+    border-radius: 999px;
+    background: rgba(117, 231, 174, .07);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .opponent-badge .avatar,
+  .player-info-line .player-badge .avatar {
+    display: none;
+  }
+
+  .opponent-badge > div,
+  .player-info-line .player-badge > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0;
+  }
+
+  .opponent-badge strong,
+  .player-info-line .player-badge strong {
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 850;
+  }
+
+  .opponent-row,
+  .player-row {
+    gap: clamp(8px, 1.15dvh, 11px);
+  }
+
+  .player-info-line {
+    min-height: 30px;
+    justify-content: center;
+  }
+
+  /* Selection stays inside the card's own box: no collision with the You badge. */
+  .player-hand .playing-card.selected {
+    transform: none;
+  }
+
+  .table-cards .playing-card.selected {
+    transform: scale(1.015);
+  }
+
+  .hand {
+    gap: clamp(7px, 1.8vw, 10px);
+  }
+
+  .center-zone {
+    grid-template-columns: 54px minmax(0, 1fr);
+    min-height: calc(var(--table-card-h) + 27px);
+    max-height: 33dvh;
+  }
+
+  .table-cards {
+    max-height: calc(33dvh - 22px);
+    gap: clamp(5px, 1.35vw, 7px);
+  }
+
+  /* Once the table grows past four cards, compact just enough to keep alignment clean. */
+  .table-cards.dense {
+    --table-card-w: 50px;
+    --table-card-h: 72px;
+    gap: 4px;
+  }
+
+  .table-cards.ultra-dense {
+    --table-card-w: 38px;
+    --table-card-h: 55px;
+    gap: 3px;
+  }
+
+  .playing-card .card-corner {
+    left: 7px;
+    top: 6px;
+    font-size: 15px;
+  }
+
+  .playing-card .card-corner.bottom {
+    right: 7px;
+    bottom: 6px;
+  }
+
+  .playing-card .card-corner .suit {
+    font-size: 13px;
+  }
+
+  .playing-card .card-center {
+    font-size: 33px;
+  }
+
+  .table-cards .playing-card .card-corner {
+    font-size: 13px;
+  }
+
+  .table-cards .playing-card .card-center {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 430px) {
+  :root {
+    --card-w: clamp(69px, 18.2vw, 77px);
+    --card-h: clamp(100px, 26.3vw, 112px);
+    --table-card-w: clamp(62px, 16.9vw, 71px);
+    --table-card-h: clamp(90px, 24.2vw, 103px);
+  }
+
+  .opponent-badge,
+  .player-info-line .player-badge {
+    min-height: 29px;
+    padding-inline: 11px;
+  }
+
+  .hand {
+    gap: 7px;
+  }
+
+  .center-zone {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --card-w: 64px;
+    --card-h: 93px;
+    --table-card-w: 57px;
+    --table-card-h: 82px;
+  }
+
+  .hand {
+    gap: 5px;
+  }
+
+  .table-cards.dense {
+    --table-card-w: 44px;
+    --table-card-h: 63px;
+  }
+
+  .table-cards.ultra-dense {
+    --table-card-w: 34px;
+    --table-card-h: 49px;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 720px) {
+  :root {
+    --card-w: clamp(60px, 16vw, 68px);
+    --card-h: clamp(87px, 23.2vw, 99px);
+    --table-card-w: clamp(54px, 14.5vw, 60px);
+    --table-card-h: clamp(78px, 21vw, 87px);
+  }
+
+  .opponent-row,
+  .player-row {
+    gap: 5px;
+  }
+
+  .opponent-badge,
+  .player-info-line .player-badge {
+    min-height: 26px;
+    padding-inline: 10px;
+  }
+
+  .player-info-line {
+    min-height: 26px;
+  }
+}

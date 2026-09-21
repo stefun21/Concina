@@ -81,3 +81,11 @@ The mobile layout is optimized for a single-screen game experience: compact spac
 - Mobile captured counters are hidden for a cleaner layout.
 - Status panel always reserves two lines and vertically centers one-line messages.
 - Table cards are larger on mobile, with responsive dense modes to prevent overlap.
+
+
+## Mobile polish v9
+- Larger hand and table cards on mobile.
+- Computer and You now use matching single text badges.
+- Removed the duplicate YOU avatar on mobile.
+- Selected hand cards no longer move upward, preventing overlap with the You label.
+- Table cards switch to compact layouts earlier as the table grows.
