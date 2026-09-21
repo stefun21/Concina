@@ -497,8 +497,8 @@
   function renderTable() {
     els.tableCards.innerHTML = '';
     const mobileLayout = window.matchMedia('(max-width: 720px)').matches;
-    const denseAt = mobileLayout ? 7 : 10;
-    const ultraDenseAt = mobileLayout ? 14 : 18;
+    const denseAt = mobileLayout ? 6 : 10;
+    const ultraDenseAt = mobileLayout ? 12 : 18;
     els.tableCards.classList.toggle('dense', state.table.length > denseAt);
     els.tableCards.classList.toggle('ultra-dense', state.table.length > ultraDenseAt);
 

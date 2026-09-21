@@ -386,3 +386,276 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 .confirm-card h2 { margin: 7px 0 8px; font-size: 28px; }
 .confirm-card p { margin: 0 0 22px; color: var(--muted); line-height: 1.55; }
 .confirm-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Mobile layout v6: larger cards, balanced vertical centering, safe tap targets */
+@media (max-width: 720px) {
+  :root {
+    --card-w: clamp(62px, 16vw, 72px);
+    --card-h: clamp(90px, 23vw, 104px);
+    --table-card-w: clamp(52px, 13.8vw, 62px);
+    --table-card-h: clamp(75px, 19.8vw, 89px);
+  }
+
+  .topbar {
+    min-height: 40px;
+  }
+
+  .top-actions .icon-button,
+  .top-actions .primary {
+    min-height: 36px;
+    height: 36px;
+    padding-inline: 7px;
+  }
+
+  .game-table {
+    /* Fallback first, then safe centering on modern mobile browsers. */
+    justify-content: flex-start;
+    justify-content: safe center;
+    gap: clamp(6px, 1.1dvh, 10px);
+    padding: clamp(8px, 1.2dvh, 12px) 8px;
+  }
+
+  .opponent-row {
+    gap: 5px;
+  }
+
+  .opponent-badge {
+    min-height: 16px;
+  }
+
+  .opponent-badge strong,
+  .player-badge strong {
+    font-size: 11px;
+  }
+
+  .opponent-badge span:last-child,
+  .player-badge span:last-child {
+    font-size: 9px;
+  }
+
+  .hand {
+    gap: clamp(6px, 1.6vw, 9px);
+  }
+
+  .hand .playing-card {
+    min-width: var(--card-w);
+    min-height: var(--card-h);
+  }
+
+  .center-zone {
+    flex: 0 0 auto;
+    min-height: calc(var(--table-card-h) + 25px);
+    max-height: 29dvh;
+    grid-template-columns: 52px minmax(0, 1fr);
+    gap: 6px;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .deck-area {
+    align-self: center;
+    padding-top: 11px;
+    gap: 5px;
+  }
+
+  .deck-stack {
+    width: 47px;
+    height: 66px;
+  }
+
+  .deck-card {
+    width: 44px;
+    height: 63px;
+  }
+
+  .deck-count strong {
+    font-size: 15px;
+  }
+
+  .deck-count span {
+    font-size: 7.5px;
+  }
+
+  .table-area {
+    overflow: visible;
+  }
+
+  .section-title {
+    margin-bottom: 5px;
+    font-size: 9.5px;
+  }
+
+  .turn-pill {
+    padding: 4px 8px;
+    font-size: 9.5px;
+  }
+
+  .table-cards {
+    min-height: var(--table-card-h);
+    max-height: calc(29dvh - 22px);
+    gap: 5px;
+    overflow: hidden;
+    align-content: center;
+    align-items: center;
+  }
+
+  .table-cards.dense {
+    --table-card-w: 42px;
+    --table-card-h: 61px;
+    gap: 3px;
+  }
+
+  .table-cards.ultra-dense {
+    --table-card-w: 31px;
+    --table-card-h: 45px;
+    gap: 2px;
+  }
+
+  .playing-card .card-corner {
+    left: 6px;
+    top: 5px;
+    font-size: 14px;
+  }
+
+  .playing-card .card-corner.bottom {
+    left: auto;
+    top: auto;
+    right: 6px;
+    bottom: 5px;
+  }
+
+  .playing-card .card-corner .suit {
+    font-size: 12px;
+  }
+
+  .playing-card .card-center {
+    font-size: 30px;
+  }
+
+  .status-bar {
+    min-height: 31px;
+    height: 31px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .player-row {
+    gap: 5px;
+  }
+
+  .player-info-line {
+    min-height: 24px;
+  }
+
+  .player-badge .avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 8px;
+  }
+
+  .action-row {
+    gap: 8px;
+  }
+
+  .action-row button {
+    min-height: 38px;
+    height: 38px;
+    min-width: 128px;
+    padding-inline: 15px;
+    font-size: 11.5px;
+  }
+
+  .playing-card.selected {
+    z-index: 3;
+  }
+
+  .player-hand .playing-card.selected {
+    transform: translateY(-6px);
+  }
+
+  .table-cards .playing-card.selected {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+@media (max-width: 430px) {
+  :root {
+    --card-w: clamp(61px, 15.8vw, 68px);
+    --card-h: clamp(88px, 22.7vw, 98px);
+    --table-card-w: clamp(50px, 13.5vw, 58px);
+    --table-card-h: clamp(72px, 19.4vw, 84px);
+  }
+
+  .game-table {
+    padding-inline: 7px;
+  }
+
+  .center-zone {
+    grid-template-columns: 49px minmax(0, 1fr);
+  }
+
+  .action-row button {
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 360px) {
+  :root {
+    --card-w: 58px;
+    --card-h: 84px;
+    --table-card-w: 48px;
+    --table-card-h: 69px;
+  }
+
+  .hand {
+    gap: 5px;
+  }
+
+  .action-row button {
+    min-width: 112px;
+    padding-inline: 11px;
+    font-size: 10.5px;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 720px) {
+  :root {
+    --card-w: clamp(55px, 14.5vw, 62px);
+    --card-h: clamp(79px, 20.9vw, 89px);
+    --table-card-w: clamp(45px, 12vw, 52px);
+    --table-card-h: clamp(65px, 17.3vw, 75px);
+  }
+
+  .game-table {
+    gap: 4px;
+    padding-block: 5px;
+  }
+
+  .center-zone {
+    min-height: calc(var(--table-card-h) + 19px);
+    max-height: 26dvh;
+  }
+
+  .table-cards {
+    max-height: calc(26dvh - 17px);
+  }
+
+  .status-bar {
+    min-height: 25px;
+    height: 25px;
+  }
+
+  .player-info-line {
+    min-height: 20px;
+  }
+
+  .player-badge .avatar {
+    width: 23px;
+    height: 23px;
+  }
+
+  .action-row button {
+    min-height: 32px;
+    height: 32px;
+  }
+}

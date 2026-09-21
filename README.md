@@ -63,3 +63,10 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 
 ## Mobile layout
 The mobile layout is optimized for a single-screen game experience: compact spacing between hands and table, no page scrolling, non-overlapping card hitboxes, adaptive table-card density, and a single-row header with the game title and controls.
+
+### Mobile layout v6
+- Larger responsive hand and table cards on phones.
+- Gameplay content is vertically centered when the viewport has spare height.
+- Short screens automatically use a more compact card size.
+- Table cards switch to compact layouts sooner as the table grows.
+- Mobile tap targets and selected-card spacing were refined to avoid overlaps.
