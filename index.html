@@ -39,28 +39,30 @@
           <div class="hand opponent-hand" id="aiHand" aria-label="Computer hand"></div>
         </div>
 
-        <div class="center-zone">
-          <div class="deck-area">
-            <div class="deck-stack" aria-hidden="true">
-              <div class="deck-card deck-card-3"></div>
-              <div class="deck-card deck-card-2"></div>
-              <div class="deck-card deck-card-1"></div>
+        <div class="center-section">
+          <div class="center-zone">
+            <div class="deck-area">
+              <div class="deck-stack" aria-hidden="true">
+                <div class="deck-card deck-card-3"></div>
+                <div class="deck-card deck-card-2"></div>
+                <div class="deck-card deck-card-1"></div>
+              </div>
+              <div class="deck-count"><strong id="deckCount">40</strong><span>cards left</span></div>
             </div>
-            <div class="deck-count"><strong id="deckCount">40</strong><span>cards left</span></div>
+
+            <div class="table-area">
+              <div class="section-title">
+                <span>Table</span>
+                <span id="turnPill" class="turn-pill">Your turn</span>
+              </div>
+              <div class="table-cards" id="tableCards" aria-label="Cards on table"></div>
+              <div id="emptyTable" class="empty-table hidden">No cards on the table</div>
+            </div>
           </div>
 
-          <div class="table-area">
-            <div class="section-title">
-              <span>Table</span>
-              <span id="turnPill" class="turn-pill">Your turn</span>
-            </div>
-            <div class="table-cards" id="tableCards" aria-label="Cards on table"></div>
-            <div id="emptyTable" class="empty-table hidden">No cards on the table</div>
+          <div class="status-bar" id="statusBar" role="status" aria-live="polite">
+            Select a card from your hand.
           </div>
-        </div>
-
-        <div class="status-bar" id="statusBar" role="status" aria-live="polite">
-          Select a card from your hand.
         </div>
 
         <div class="player-row">

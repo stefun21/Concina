@@ -502,10 +502,13 @@
   function renderTable() {
     els.tableCards.innerHTML = '';
     const mobileLayout = window.matchMedia('(max-width: 720px)').matches;
-    const denseAt = mobileLayout ? 4 : 10;
-    const ultraDenseAt = mobileLayout ? 9 : 18;
-    els.tableCards.classList.toggle('dense', state.table.length > denseAt);
-    els.tableCards.classList.toggle('ultra-dense', state.table.length > ultraDenseAt);
+    const tableCount = state.table.length;
+    const denseAt = mobileLayout ? 9 : 10;
+    const ultraDenseAt = mobileLayout ? 12 : 18;
+    els.tableCards.classList.toggle('dense', tableCount > denseAt);
+    els.tableCards.classList.toggle('ultra-dense', tableCount > ultraDenseAt);
+    els.tableCards.classList.toggle('mobile-centered-set', mobileLayout && tableCount > 0 && tableCount < 6);
+    els.tableCards.classList.toggle('mobile-three-per-row', mobileLayout && tableCount >= 6);
 
     state.table.forEach((card, index) => {
       els.tableCards.appendChild(makeCardElement(card, {

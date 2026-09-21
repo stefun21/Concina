@@ -1112,3 +1112,203 @@ button:disabled { cursor: not-allowed; opacity: .42; }
     min-height: 26px;
   }
 }
+
+/* Mobile layout v10: three deliberate gameplay sections and centered table groups */
+.center-section { display: contents; }
+
+@media (max-width: 720px) {
+  .game-table {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0;
+    padding: clamp(10px, 1.5dvh, 14px) 7px;
+    align-items: stretch;
+  }
+
+  /* Section 1 — Computer: intentionally higher in the available game scene. */
+  .opponent-row {
+    align-self: start;
+    justify-self: stretch;
+    padding-top: clamp(5px, 1dvh, 10px);
+    gap: clamp(9px, 1.2dvh, 13px);
+  }
+
+  /* Section 2 — deck + table + information panel. */
+  .center-section {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: 100%;
+    min-height: 0;
+    gap: clamp(10px, 1.35dvh, 14px);
+  }
+
+  .center-zone {
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: clamp(7px, 1.8vw, 10px);
+    align-items: center;
+    overflow: visible;
+  }
+
+  .deck-area {
+    align-self: center;
+    padding-top: 15px;
+  }
+
+  .table-area {
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    justify-content: center;
+  }
+
+  .section-title {
+    margin-bottom: 7px;
+  }
+
+  .table-cards {
+    width: 100%;
+    min-height: calc(var(--table-card-h) + 4px);
+    max-height: none;
+    overflow: visible;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    column-gap: clamp(8px, 2.1vw, 11px);
+    row-gap: clamp(9px, 1.3dvh, 12px);
+  }
+
+  /* 1–5 cards: the complete set remains visually centered in the table section. */
+  .table-cards.mobile-centered-set {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    margin-inline: auto;
+  }
+
+  /* 6+ cards: rows are limited to three cards. Six cards therefore render 3 + 3. */
+  .table-cards.mobile-three-per-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: min(100%, calc((var(--table-card-w) * 3) + 24px));
+    max-width: calc((var(--table-card-w) * 3) + 24px);
+    margin-inline: auto;
+    justify-content: center;
+    align-content: center;
+    column-gap: 10px;
+    row-gap: clamp(10px, 1.45dvh, 13px);
+  }
+
+  /* Keep cards readable; compact only when the table becomes unusually crowded. */
+  .table-cards.dense {
+    --table-card-w: clamp(55px, 14.8vw, 64px);
+    --table-card-h: clamp(80px, 21.4vw, 93px);
+  }
+
+  .table-cards.ultra-dense {
+    --table-card-w: clamp(48px, 12.8vw, 56px);
+    --table-card-h: clamp(69px, 18.5vw, 81px);
+  }
+
+  .status-bar {
+    width: 100%;
+    flex: 0 0 50px;
+  }
+
+  /* Section 3 — You: intentionally lower, with breathing room above the controls. */
+  .player-row {
+    align-self: end;
+    justify-self: stretch;
+    padding-bottom: clamp(7px, 1.2dvh, 12px);
+    gap: clamp(9px, 1.2dvh, 12px);
+  }
+
+  .player-info-line {
+    margin-bottom: 1px;
+  }
+
+  .player-hand {
+    margin-bottom: clamp(5px, .8dvh, 8px);
+  }
+
+  .action-row {
+    margin-top: clamp(8px, 1.1dvh, 12px);
+    gap: clamp(9px, 2vw, 12px);
+  }
+
+  .action-row button {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 430px) {
+  .game-table {
+    padding-inline: 6px;
+  }
+
+  .center-zone {
+    grid-template-columns: 53px minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .table-cards.mobile-three-per-row {
+    width: min(100%, calc((var(--table-card-w) * 3) + 18px));
+    max-width: calc((var(--table-card-w) * 3) + 18px);
+    column-gap: 8px;
+    row-gap: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .center-zone {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
+
+  .table-cards {
+    column-gap: 6px;
+    row-gap: 8px;
+  }
+
+  .table-cards.mobile-three-per-row {
+    width: min(100%, calc((var(--table-card-w) * 3) + 12px));
+    max-width: calc((var(--table-card-w) * 3) + 12px);
+    column-gap: 6px;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 720px) {
+  .game-table {
+    padding-block: 6px;
+  }
+
+  .opponent-row {
+    padding-top: 2px;
+    gap: 5px;
+  }
+
+  .center-section {
+    gap: 6px;
+  }
+
+  .player-row {
+    padding-bottom: 2px;
+    gap: 5px;
+  }
+
+  .player-hand {
+    margin-bottom: 2px;
+  }
+
+  .action-row {
+    margin-top: 5px;
+  }
+
+  .table-cards.mobile-three-per-row {
+    row-gap: 7px;
+  }
+}
