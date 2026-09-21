@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b2d22" />
+  <meta name="description" content="Concina - a fast two-player card game." />
+  <title>Concina</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-wrap">
+        <div class="brand-mark" aria-hidden="true">C</div>
+        <div>
+          <h1>Concina</h1>
+          <p>Capture. Collect. Score.</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-button" id="scoringBtn" type="button" aria-label="Open scoring rules">Scoring</button>
+        <button class="icon-button" id="rulesBtn" type="button" aria-label="Open how to play">How to Play</button>
+        <button class="icon-button" id="pauseBtn" type="button" aria-label="Pause game">Pause</button>
+        <button class="primary small" id="newGameBtn" type="button">New game</button>
+      </div>
+    </header>
+
+    <main class="game-layout">
+      <section class="game-table" aria-label="Concina game table">
+        <div class="opponent-row">
+          <div class="player-badge opponent-badge">
+            <span class="avatar">AI</span>
+            <div>
+              <strong>Computer</strong>
+              <span id="aiCapturedLabel">0 captured</span>
+            </div>
+          </div>
+          <div class="hand opponent-hand" id="aiHand" aria-label="Computer hand"></div>
+        </div>
+
+        <div class="center-zone">
+          <div class="deck-area">
+            <div class="deck-stack" aria-hidden="true">
+              <div class="deck-card deck-card-3"></div>
+              <div class="deck-card deck-card-2"></div>
+              <div class="deck-card deck-card-1"></div>
+            </div>
+            <div class="deck-count"><strong id="deckCount">40</strong><span>cards left</span></div>
+          </div>
+
+          <div class="table-area">
+            <div class="section-title">
+              <span>Table</span>
+              <span id="turnPill" class="turn-pill">Your turn</span>
+            </div>
+            <div class="table-cards" id="tableCards" aria-label="Cards on table"></div>
+            <div id="emptyTable" class="empty-table hidden">No cards on the table</div>
+          </div>
+        </div>
+
+        <div class="status-bar" id="statusBar" role="status" aria-live="polite">
+          Select a card from your hand.
+        </div>
+
+        <div class="player-row">
+          <div class="player-info-line">
+            <div class="player-badge">
+              <span class="avatar human">YOU</span>
+              <div>
+                <strong>You</strong>
+                <span id="playerCapturedLabel">0 captured</span>
+              </div>
+            </div>
+            <div class="selection-help" id="selectionHelp">Choose a hand card</div>
+          </div>
+          <div class="hand player-hand" id="playerHand" aria-label="Your hand"></div>
+          <div class="action-row">
+            <button class="secondary" id="clearSelectionBtn" type="button" disabled>Clear selection</button>
+            <button class="primary" id="playBtn" type="button" disabled>Play card</button>
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+  </div>
+
+  <div class="modal hidden" id="rulesModal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">Rules</span>
+          <h2 id="rulesTitle">How to Play</h2>
+        </div>
+        <button class="close-button" type="button" data-close-modal aria-label="Close rules">×</button>
+      </div>
+      <div class="rules-grid">
+        <div><strong>Deal</strong><p>Each player gets 4 cards. Four cards start face up on the table.</p></div>
+        <div><strong>Capture</strong><p>With A–10, you may take any number of numeric cards from the table if their total exactly matches the card you play. Ace = 1, so the capture total is never above 10. Example: 1 + 2 + 3 + 3 = 9, captured with a 9.</p></div>
+        <div><strong>Face cards</strong><p>Jacks, Queens and Kings capture only the same face card from the table.</p></div>
+        <div><strong>No capture</strong><p>If none of your hand cards can capture, you must place one card face up on the table.</p></div>
+        <div><strong>New deal</strong><p>When both hands are empty, each player receives 4 fresh cards while the deck still has cards.</p></div>
+        <div><strong>Final table</strong><p>After the final hands are played, remaining table cards go to the player who made the last capture.</p></div>
+        <div><strong>Pause</strong><p>Use the Pause button at any time. The computer turn timer also stops until you press Resume.</p></div>
+      </div>
+      <div class="modal-footer"><button class="primary" type="button" data-close-modal>Got it</button></div>
+    </div>
+  </div>
+
+
+  <div class="modal hidden" id="scoringModal" role="dialog" aria-modal="true" aria-labelledby="scoringTitle">
+    <div class="modal-backdrop" data-close-scoring></div>
+    <div class="modal-card scoring-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">Points</span>
+          <h2 id="scoringTitle">Scoring</h2>
+        </div>
+        <button class="close-button" type="button" data-close-scoring aria-label="Close scoring">×</button>
+      </div>
+      <div class="scoring-rules-list">
+        <div class="score-rule"><span class="score-icon">1</span><span>Most captured cards</span><strong>ties: both +1</strong></div>
+        <div class="score-rule"><span class="score-icon">1</span><span>Most clubs</span><strong>ties: both +1</strong></div>
+        <div class="score-rule"><span class="mini-card black">2♣</span><span>Two of clubs</span><strong>+1</strong></div>
+        <div class="score-rule"><span class="mini-card red">10♦</span><span>Ten of diamonds</span><strong>+2</strong></div>
+      </div>
+      <div class="modal-footer"><button class="primary" type="button" data-close-scoring>Got it</button></div>
+    </div>
+  </div>
+  <div class="modal hidden" id="pauseModal" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card pause-card">
+      <div class="pause-icon" aria-hidden="true">Ⅱ</div>
+      <span class="eyebrow">Game paused</span>
+      <h2 id="pauseTitle">Take a break</h2>
+      <p>Your game is frozen exactly where you left it.</p>
+      <button class="primary wide" id="resumeBtn" type="button">Resume game</button>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="scoreModal" role="dialog" aria-modal="true" aria-labelledby="scoreTitle">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card scoreboard-card">
+      <div class="winner-crown" aria-hidden="true">♛</div>
+      <span class="eyebrow">Game complete</span>
+      <h2 id="scoreTitle">Final score</h2>
+      <p class="winner-text" id="winnerText">You win!</p>
+
+      <div class="final-score-row">
+        <div><span>You</span><strong id="finalPlayerScore">0</strong></div>
+        <span class="versus">–</span>
+        <div><span>Computer</span><strong id="finalAiScore">0</strong></div>
+      </div>
+
+      <div class="score-breakdown" id="scoreBreakdown"></div>
+      <button class="primary wide" id="playAgainBtn" type="button">Play again</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

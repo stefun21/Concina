@@ -51,3 +51,10 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 
 - The Info button is always available in the header.
 - Pause freezes the game, including pending computer actions, until Resume is pressed.
+
+
+## UI notes
+- Scoring and How to Play are available from buttons in the top bar and open in modals.
+- Round UI and round numbering are intentionally removed.
+- Player cards do not reveal capture hints or availability states.
+- Card dealing uses a short staggered animation.
