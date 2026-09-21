@@ -89,3 +89,9 @@ The mobile layout is optimized for a single-screen game experience: compact spac
 - Removed the duplicate YOU avatar on mobile.
 - Selected hand cards no longer move upward, preventing overlap with the You label.
 - Table cards switch to compact layouts earlier as the table grows.
+
+## v11 changes
+- Players may place a card on the table even when a capture is available.
+- Capture-hint messaging was removed.
+- On mobile, the deck stays anchored left and the turn indicator stays anchored right independently of the status panel.
+- Added an all-time Stats scoreboard stored locally in the browser with `localStorage` (games, wins, draws, losses, cumulative points).

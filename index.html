@@ -22,6 +22,7 @@
       <div class="top-actions">
         <button class="icon-button" id="scoringBtn" type="button" aria-label="Open scoring rules">Scoring</button>
         <button class="icon-button" id="rulesBtn" type="button" aria-label="Open how to play">How to Play</button>
+        <button class="icon-button" id="statsBtn" type="button" aria-label="Open all-time scoreboard">Stats</button>
         <button class="primary small" id="newGameBtn" type="button">New game</button>
       </div>
     </header>
@@ -102,7 +103,7 @@
         <div><strong>Deal</strong><p>Each player gets 4 cards. Four cards start face up on the table.</p></div>
         <div><strong>Capture</strong><p>With A–10, you may take any number of numeric cards from the table if their total exactly matches the card you play. Ace = 1, so the capture total is never above 10. Example: 1 + 2 + 3 + 3 = 9, captured with a 9.</p></div>
         <div><strong>Face cards</strong><p>Jacks, Queens and Kings capture only the same face card from the table.</p></div>
-        <div><strong>No capture</strong><p>If none of your hand cards can capture, you must place one card face up on the table.</p></div>
+        <div><strong>Place a card</strong><p>You may place a card face up on the table instead of capturing, even when a capture is available.</p></div>
         <div><strong>New deal</strong><p>When both hands are empty, each player receives 4 fresh cards while the deck still has cards.</p></div>
         <div><strong>Final table</strong><p>After the final hands are played, remaining table cards go to the player who made the last capture.</p></div>
       </div>
@@ -130,6 +131,32 @@
       <div class="modal-footer"><button class="primary" type="button" data-close-scoring>Got it</button></div>
     </div>
   </div>
+  <div class="modal hidden" id="statsModal" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
+    <div class="modal-backdrop" data-close-stats></div>
+    <div class="modal-card stats-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="eyebrow">Local stats</span>
+          <h2 id="statsTitle">All-time scoreboard</h2>
+        </div>
+        <button class="close-button" type="button" data-close-stats aria-label="Close all-time scoreboard">×</button>
+      </div>
+      <div class="all-time-score">
+        <div class="all-time-player"><span>You</span><strong id="allTimePlayerPoints">0</strong><small>points</small></div>
+        <span class="versus">–</span>
+        <div class="all-time-player"><span>Computer</span><strong id="allTimeAiPoints">0</strong><small>points</small></div>
+      </div>
+      <div class="stats-grid">
+        <div><span>Games</span><strong id="allTimeGames">0</strong></div>
+        <div><span>Wins</span><strong id="allTimeWins">0</strong></div>
+        <div><span>Draws</span><strong id="allTimeDraws">0</strong></div>
+        <div><span>Losses</span><strong id="allTimeLosses">0</strong></div>
+      </div>
+      <p class="stats-note">Saved locally on this browser and device.</p>
+      <div class="modal-footer"><button class="primary" type="button" data-close-stats>Close</button></div>
+    </div>
+  </div>
+
   <div class="modal hidden" id="newGameModal" role="dialog" aria-modal="true" aria-labelledby="newGameTitle">
     <div class="modal-backdrop" data-close-new-game></div>
     <div class="modal-card confirm-card">

@@ -24,6 +24,8 @@
     { rank: 'K', value: 13 },
   ];
 
+  const ALL_TIME_KEY = 'concina-all-time-v1';
+
   const state = {
     deck: [],
     table: [],
@@ -56,9 +58,11 @@
     clearSelectionBtn: document.getElementById('clearSelectionBtn'),
     scoringBtn: document.getElementById('scoringBtn'),
     rulesBtn: document.getElementById('rulesBtn'),
+    statsBtn: document.getElementById('statsBtn'),
     newGameBtn: document.getElementById('newGameBtn'),
     rulesModal: document.getElementById('rulesModal'),
     scoringModal: document.getElementById('scoringModal'),
+    statsModal: document.getElementById('statsModal'),
     newGameModal: document.getElementById('newGameModal'),
     cancelNewGameBtn: document.getElementById('cancelNewGameBtn'),
     confirmNewGameBtn: document.getElementById('confirmNewGameBtn'),
@@ -68,7 +72,57 @@
     finalAiScore: document.getElementById('finalAiScore'),
     scoreBreakdown: document.getElementById('scoreBreakdown'),
     playAgainBtn: document.getElementById('playAgainBtn'),
+    allTimePlayerPoints: document.getElementById('allTimePlayerPoints'),
+    allTimeAiPoints: document.getElementById('allTimeAiPoints'),
+    allTimeGames: document.getElementById('allTimeGames'),
+    allTimeWins: document.getElementById('allTimeWins'),
+    allTimeDraws: document.getElementById('allTimeDraws'),
+    allTimeLosses: document.getElementById('allTimeLosses'),
   };
+
+  function defaultAllTimeStats() {
+    return { games: 0, wins: 0, draws: 0, losses: 0, playerPoints: 0, aiPoints: 0 };
+  }
+
+  function loadAllTimeStats() {
+    try {
+      const raw = window.localStorage.getItem(ALL_TIME_KEY);
+      if (!raw) return defaultAllTimeStats();
+      const parsed = JSON.parse(raw);
+      return { ...defaultAllTimeStats(), ...parsed };
+    } catch (_) {
+      return defaultAllTimeStats();
+    }
+  }
+
+  function saveAllTimeStats(stats) {
+    try {
+      window.localStorage.setItem(ALL_TIME_KEY, JSON.stringify(stats));
+    } catch (_) {
+      // The game remains fully playable if browser storage is unavailable.
+    }
+  }
+
+  function recordAllTimeScore(result) {
+    const stats = loadAllTimeStats();
+    stats.games += 1;
+    stats.playerPoints += result.playerScore;
+    stats.aiPoints += result.aiScore;
+    if (result.playerScore > result.aiScore) stats.wins += 1;
+    else if (result.aiScore > result.playerScore) stats.losses += 1;
+    else stats.draws += 1;
+    saveAllTimeStats(stats);
+    renderAllTimeStats(stats);
+  }
+
+  function renderAllTimeStats(stats = loadAllTimeStats()) {
+    els.allTimePlayerPoints.textContent = stats.playerPoints;
+    els.allTimeAiPoints.textContent = stats.aiPoints;
+    els.allTimeGames.textContent = stats.games;
+    els.allTimeWins.textContent = stats.wins;
+    els.allTimeDraws.textContent = stats.draws;
+    els.allTimeLosses.textContent = stats.losses;
+  }
 
   function createDeck() {
     const deck = [];
@@ -108,6 +162,7 @@
   function blockingModalOpen() {
     return !els.rulesModal.classList.contains('hidden')
       || !els.scoringModal.classList.contains('hidden')
+      || !els.statsModal.classList.contains('hidden')
       || !els.newGameModal.classList.contains('hidden');
   }
 
@@ -142,6 +197,7 @@
     state.pendingAction = null;
     els.rulesModal.classList.add('hidden');
     els.scoringModal.classList.add('hidden');
+    els.statsModal.classList.add('hidden');
     els.newGameModal.classList.add('hidden');
 
     for (let i = 0; i < 4; i++) state.table.push(state.deck.pop());
@@ -219,7 +275,7 @@
   }
 
   function canDiscardSelected() {
-    return !!selectedHandCard() && state.selectedTableIds.size === 0 && !hasAnyCapture('player');
+    return !!selectedHandCard() && state.selectedTableIds.size === 0;
   }
 
   function setStatus(message) {
@@ -233,12 +289,7 @@
 
     const card = selectedHandCard();
     if (!card) setStatus('Select a card from your hand.');
-    else {
-      const mobile = window.matchMedia('(max-width: 720px)').matches;
-      setStatus(mobile
-        ? `${cardLabel(card)} selected. Choose table cards, then press Play card.`
-        : `${cardLabel(card)} selected. Choose table cards if you want to capture, then press Play card.`);
-    }
+    else setStatus(`${cardLabel(card)} selected.`);
     render();
   }
 
@@ -294,8 +345,7 @@
     const canDiscard = canDiscardSelected();
 
     if (!validCapture && !canDiscard) {
-      if (hasAnyCapture('player')) setStatus('A capture is available. Select a valid combination before playing.');
-      else setStatus('Select no table cards to place this card on the table.');
+      setStatus('Those table cards do not match the selected card.');
       return;
     }
 
@@ -445,6 +495,7 @@
 
   function showScoreModal() {
     const result = calculateScore();
+    recordAllTimeScore(result);
     els.finalPlayerScore.textContent = result.playerScore;
     els.finalAiScore.textContent = result.aiScore;
     els.winnerText.textContent = result.playerScore > result.aiScore
@@ -572,6 +623,17 @@
     if (state.pendingAction) scheduleAction(state.pendingAction, 180);
   }
 
+  function openStats() {
+    clearPendingTimer();
+    renderAllTimeStats();
+    els.statsModal.classList.remove('hidden');
+  }
+
+  function closeStats() {
+    els.statsModal.classList.add('hidden');
+    if (state.pendingAction) scheduleAction(state.pendingAction, 180);
+  }
+
   function openNewGameConfirm() {
     clearPendingTimer();
     els.newGameModal.classList.remove('hidden');
@@ -591,16 +653,19 @@
   els.clearSelectionBtn.addEventListener('click', clearSelection);
   els.scoringBtn.addEventListener('click', openScoring);
   els.rulesBtn.addEventListener('click', openRules);
+  els.statsBtn.addEventListener('click', openStats);
   els.newGameBtn.addEventListener('click', openNewGameConfirm);
   els.cancelNewGameBtn.addEventListener('click', closeNewGameConfirm);
   els.confirmNewGameBtn.addEventListener('click', confirmNewGame);
   els.playAgainBtn.addEventListener('click', newGame);
   document.querySelectorAll('[data-close-modal]').forEach(el => el.addEventListener('click', closeRules));
   document.querySelectorAll('[data-close-scoring]').forEach(el => el.addEventListener('click', closeScoring));
+  document.querySelectorAll('[data-close-stats]').forEach(el => el.addEventListener('click', closeStats));
   document.querySelectorAll('[data-close-new-game]').forEach(el => el.addEventListener('click', closeNewGameConfirm));
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !els.rulesModal.classList.contains('hidden')) closeRules();
     else if (e.key === 'Escape' && !els.scoringModal.classList.contains('hidden')) closeScoring();
+    else if (e.key === 'Escape' && !els.statsModal.classList.contains('hidden')) closeStats();
     else if (e.key === 'Escape' && !els.newGameModal.classList.contains('hidden')) closeNewGameConfirm();
   });
 
@@ -610,5 +675,6 @@
     resizeTimer = window.setTimeout(renderTable, 100);
   });
 
+  renderAllTimeStats();
   newGame();
 })();

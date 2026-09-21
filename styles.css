@@ -1312,3 +1312,88 @@ button:disabled { cursor: not-allowed; opacity: .42; }
     row-gap: 7px;
   }
 }
+
+/* v11: independent mobile deck/turn positioning + all-time local scoreboard */
+.stats-modal-card { width: min(520px, 100%); }
+.all-time-score {
+  display: grid;
+  grid-template-columns: 1fr 28px 1fr;
+  gap: 10px;
+  align-items: center;
+  margin: 18px 0 14px;
+}
+.all-time-player {
+  display: grid;
+  gap: 3px;
+  padding: 16px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.035);
+  text-align: center;
+}
+.all-time-player span, .all-time-player small { color: var(--muted); }
+.all-time-player span { font-size: 12px; font-weight: 800; }
+.all-time-player strong { font-size: 34px; line-height: 1; }
+.all-time-player small { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.stats-grid > div {
+  display: grid;
+  gap: 5px;
+  padding: 12px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.025);
+  text-align: center;
+}
+.stats-grid span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.stats-grid strong { font-size: 21px; }
+.stats-note { margin: 12px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
+
+@media (max-width: 720px) {
+  /* Keep the deck anchored left and the turn pill anchored right, independent of status text. */
+  .center-zone { position: relative; }
+  .deck-area {
+    justify-self: start;
+    align-self: start;
+    margin-left: 0;
+  }
+  .table-area { position: static; }
+  .section-title {
+    justify-content: flex-start;
+    padding-right: 76px;
+  }
+  .turn-pill {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    z-index: 5;
+  }
+
+  .top-actions { gap: 3px; }
+  .top-actions .icon-button,
+  .top-actions .primary {
+    padding-inline: 6px;
+    font-size: 9.5px;
+  }
+
+  .stats-modal-card { width: min(92vw, 500px); }
+  .all-time-player { padding: 13px 8px; }
+  .all-time-player strong { font-size: 28px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 360px) {
+  .brand-wrap { gap: 4px; }
+  .brand-wrap h1 { font-size: 16px; }
+  .top-actions { gap: 2px; }
+  .top-actions .icon-button,
+  .top-actions .primary {
+    padding-inline: 4px;
+    font-size: 8.5px;
+  }
+}
