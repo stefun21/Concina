@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0b2d22" />
-  <meta name="description" content="Concina - a fast two-player card game." />
+  <meta name="description" content="Concina - joc de cărți pentru doi jucători." />
   <title>Concina</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
@@ -16,14 +16,15 @@
         <div class="brand-mark" aria-hidden="true">C</div>
         <div>
           <h1>Concina</h1>
-          <p>Capture. Collect. Score.</p>
+          <p data-i18n="brandTagline">Capturează. Adună. Câștigă.</p>
         </div>
       </div>
       <div class="top-actions">
-        <button class="icon-button" id="scoringBtn" type="button" aria-label="Open scoring rules">Scoring</button>
-        <button class="icon-button" id="rulesBtn" type="button" aria-label="Open how to play">How to Play</button>
-        <button class="icon-button" id="statsBtn" type="button" aria-label="Open all-time scoreboard">Stats</button>
-        <button class="primary small" id="newGameBtn" type="button">New game</button>
+        <button class="icon-button" id="scoringBtn" type="button" data-i18n="scoring">Punctaj</button>
+        <button class="icon-button" id="rulesBtn" type="button" data-i18n="howToPlay">Cum se joacă</button>
+        <button class="icon-button" id="statsBtn" type="button" data-i18n="stats">Statistici</button>
+        <button class="icon-button language-button" id="languageBtn" type="button" aria-label="Schimbă limba">RO/EN</button>
+        <button class="primary small" id="newGameBtn" type="button" data-i18n="newGame">Joc nou</button>
       </div>
     </header>
 
@@ -33,9 +34,10 @@
           <div class="player-badge opponent-badge">
             <span class="avatar">AI</span>
             <div>
-              <strong>Computer</strong>
-              <span id="aiCapturedLabel">0 captured</span>
+              <strong data-i18n="computer">Computer</strong>
+              <span id="aiCapturedLabel">0 capturate</span>
             </div>
+            <span class="last-played-card" id="aiLastCard" aria-label="Ultima carte jucată de Computer">—</span>
           </div>
           <div class="hand opponent-hand" id="aiHand" aria-label="Computer hand"></div>
         </div>
@@ -48,44 +50,41 @@
                 <div class="deck-card deck-card-2"></div>
                 <div class="deck-card deck-card-1"></div>
               </div>
-              <div class="deck-count"><strong id="deckCount">40</strong><span>cards left</span></div>
+              <div class="deck-count"><strong id="deckCount">40</strong><span data-i18n="cardsLeft">cărți rămase</span></div>
             </div>
 
             <div class="table-area">
               <div class="section-title">
-                <span>Table</span>
-                <span id="turnPill" class="turn-pill">Your turn</span>
+                <span data-i18n="table">Masă</span>
+                <span id="turnPill" class="turn-pill">Rândul tău</span>
               </div>
               <div class="table-cards" id="tableCards" aria-label="Cards on table"></div>
-              <div id="emptyTable" class="empty-table hidden">No cards on the table</div>
+              <div id="emptyTable" class="empty-table hidden" data-i18n="emptyTable">Nu sunt cărți pe masă</div>
             </div>
           </div>
 
-          <div class="status-bar" id="statusBar" role="status" aria-live="polite">
-            Select a card from your hand.
-          </div>
+          <div class="status-bar" id="statusBar" role="status" aria-live="polite">Alege o carte din mână.</div>
         </div>
 
         <div class="player-row">
           <div class="player-info-line">
             <div class="player-badge">
-              <span class="avatar human">YOU</span>
+              <span class="avatar human">TU</span>
               <div>
-                <strong>You</strong>
-                <span id="playerCapturedLabel">0 captured</span>
+                <strong data-i18n="you">Tu</strong>
+                <span id="playerCapturedLabel">0 capturate</span>
               </div>
+              <span class="last-played-card" id="playerLastCard" aria-label="Ultima ta carte jucată">—</span>
             </div>
-            <div class="selection-help" id="selectionHelp">Choose a hand card</div>
+            <div class="selection-help" id="selectionHelp">Alege o carte</div>
           </div>
           <div class="hand player-hand" id="playerHand" aria-label="Your hand"></div>
           <div class="action-row">
-            <button class="secondary" id="clearSelectionBtn" type="button" disabled>Clear selection</button>
-            <button class="primary" id="playBtn" type="button" disabled>Play card</button>
+            <button class="secondary" id="clearSelectionBtn" type="button" disabled data-i18n="clearSelection">Șterge selecția</button>
+            <button class="primary" id="playBtn" type="button" disabled data-i18n="playCard">Joacă cartea</button>
           </div>
         </div>
       </section>
-
-
     </main>
   </div>
 
@@ -94,75 +93,77 @@
     <div class="modal-card">
       <div class="modal-header">
         <div>
-          <span class="eyebrow">Rules</span>
-          <h2 id="rulesTitle">How to Play</h2>
+          <span class="eyebrow" data-i18n="rulesEyebrow">Reguli</span>
+          <h2 id="rulesTitle" data-i18n="howToPlay">Cum se joacă</h2>
         </div>
         <button class="close-button" type="button" data-close-modal aria-label="Close rules">×</button>
       </div>
       <div class="rules-grid">
-        <div><strong>Deal</strong><p>Each player gets 4 cards. Four cards start face up on the table.</p></div>
-        <div><strong>Capture</strong><p>With A–10, you may take any number of numeric cards from the table if their total exactly matches the card you play. Ace = 1, so the capture total is never above 10. Example: 1 + 2 + 3 + 3 = 9, captured with a 9.</p></div>
-        <div><strong>Face cards</strong><p>Jacks, Queens and Kings capture only the same face card from the table.</p></div>
-        <div><strong>Place a card</strong><p>You may place a card face up on the table instead of capturing, even when a capture is available.</p></div>
-        <div><strong>New deal</strong><p>When both hands are empty, each player receives 4 fresh cards while the deck still has cards.</p></div>
-        <div><strong>Final table</strong><p>After the final hands are played, remaining table cards go to the player who made the last capture.</p></div>
+        <div><strong data-i18n="ruleDealTitle">Împărțire</strong><p data-i18n="ruleDealBody">Fiecare jucător primește 4 cărți. Patru cărți sunt puse cu fața în sus pe masă.</p></div>
+        <div><strong data-i18n="ruleCaptureTitle">Captură</strong><p data-i18n="ruleCaptureBody">Cu A–10 poți lua oricâte cărți numerice de pe masă dacă suma lor este exact egală cu valoarea cărții jucate. Asul valorează 1.</p></div>
+        <div><strong data-i18n="ruleJackTitle">Valet</strong><p data-i18n="ruleJackBody">Valetul (J) ia toate cărțile aflate pe masă atunci când este folosit pentru captură.</p></div>
+        <div><strong data-i18n="ruleFacesTitle">Damă și Rege</strong><p data-i18n="ruleFacesBody">Dama ia doar o Damă, iar Regele ia doar un Rege de pe masă.</p></div>
+        <div><strong data-i18n="rulePlaceTitle">Pune o carte</strong><p data-i18n="rulePlaceBody">Poți pune o carte cu fața în sus pe masă în loc să capturezi, chiar dacă ai o captură disponibilă.</p></div>
+        <div><strong data-i18n="ruleDealAgainTitle">Împărțire nouă</strong><p data-i18n="ruleDealAgainBody">Când ambele mâini sunt goale, fiecare jucător primește alte 4 cărți cât timp mai există cărți în pachet.</p></div>
+        <div><strong data-i18n="ruleFinalTitle">Finalul mesei</strong><p data-i18n="ruleFinalBody">După ultimele mâini, cărțile rămase pe masă merg la jucătorul care a făcut ultima captură.</p></div>
+        <div><strong data-i18n="ruleScoringTitle">Punctaj</strong><p data-i18n="ruleScoringBody">Cele mai multe cărți = 2 puncte, cele mai multe trefle = 1 punct, 2♣ = 1 punct, 10♦ = 2 puncte. La egalitate pentru cele mai multe cărți sau trefle, ambii jucători primesc punctele categoriei.</p></div>
       </div>
-      <div class="modal-footer"><button class="primary" type="button" data-close-modal>Got it</button></div>
+      <div class="modal-footer"><button class="primary" type="button" data-close-modal data-i18n="gotIt">Am înțeles</button></div>
     </div>
   </div>
-
 
   <div class="modal hidden" id="scoringModal" role="dialog" aria-modal="true" aria-labelledby="scoringTitle">
     <div class="modal-backdrop" data-close-scoring></div>
     <div class="modal-card scoring-modal-card">
       <div class="modal-header">
         <div>
-          <span class="eyebrow">Points</span>
-          <h2 id="scoringTitle">Scoring</h2>
+          <span class="eyebrow" data-i18n="points">Puncte</span>
+          <h2 id="scoringTitle" data-i18n="scoring">Punctaj</h2>
         </div>
         <button class="close-button" type="button" data-close-scoring aria-label="Close scoring">×</button>
       </div>
       <div class="scoring-rules-list">
-        <div class="score-rule"><span class="score-icon">1</span><span>Most captured cards</span><strong>ties: both +1</strong></div>
-        <div class="score-rule"><span class="score-icon">1</span><span>Most clubs</span><strong>ties: both +1</strong></div>
-        <div class="score-rule"><span class="mini-card black">2♣</span><span>Two of clubs</span><strong>+1</strong></div>
-        <div class="score-rule"><span class="mini-card red">10♦</span><span>Ten of diamonds</span><strong>+2</strong></div>
+        <div class="score-rule"><span class="score-icon">2</span><span data-i18n="scoreMostCards">Cele mai multe cărți capturate</span><strong data-i18n="scoreMostCardsTie">egalitate: ambii +2</strong></div>
+        <div class="score-rule"><span class="score-icon">1</span><span data-i18n="scoreMostClubs">Cele mai multe trefle</span><strong data-i18n="scoreMostClubsTie">egalitate: ambii +1</strong></div>
+        <div class="score-rule"><span class="mini-card black">2♣</span><span data-i18n="scoreTwoClubs">Doi de trefla</span><strong>+1</strong></div>
+        <div class="score-rule"><span class="mini-card red">10♦</span><span data-i18n="scoreTenDiamonds">Zece de caro</span><strong>+2</strong></div>
       </div>
-      <div class="modal-footer"><button class="primary" type="button" data-close-scoring>Got it</button></div>
+      <div class="modal-footer"><button class="primary" type="button" data-close-scoring data-i18n="gotIt">Am înțeles</button></div>
     </div>
   </div>
+
   <div class="modal hidden" id="statsModal" role="dialog" aria-modal="true" aria-labelledby="statsTitle">
     <div class="modal-backdrop" data-close-stats></div>
     <div class="modal-card stats-modal-card">
       <div class="modal-header">
         <div>
-          <span class="eyebrow">Local stats</span>
-          <h2 id="statsTitle">All-time scoreboard</h2>
+          <span class="eyebrow" data-i18n="localStats">Statistici locale</span>
+          <h2 id="statsTitle" data-i18n="allTimeScoreboard">Scor all-time</h2>
         </div>
         <button class="close-button" type="button" data-close-stats aria-label="Close all-time scoreboard">×</button>
       </div>
       <div class="all-time-score">
-        <div class="all-time-player"><span>You</span><strong id="allTimePlayerWins">0</strong><small>games won</small></div>
+        <div class="all-time-player"><span data-i18n="you">Tu</span><strong id="allTimePlayerWins">0</strong><small data-i18n="gamesWon">jocuri câștigate</small></div>
         <span class="versus">–</span>
-        <div class="all-time-player"><span>Computer</span><strong id="allTimeAiWins">0</strong><small>games won</small></div>
+        <div class="all-time-player"><span data-i18n="computer">Computer</span><strong id="allTimeAiWins">0</strong><small data-i18n="gamesWon">jocuri câștigate</small></div>
       </div>
       <div class="stats-grid stats-grid-single">
-        <div><span>Games played</span><strong id="allTimeGames">0</strong></div>
+        <div><span data-i18n="gamesPlayed">Jocuri jucate</span><strong id="allTimeGames">0</strong></div>
       </div>
-      <p class="stats-note">Saved locally on this browser and device.</p>
-      <div class="modal-footer"><button class="primary" type="button" data-close-stats>Close</button></div>
+      <p class="stats-note" data-i18n="statsSaved">Salvat local în acest browser și pe acest dispozitiv.</p>
+      <div class="modal-footer"><button class="primary" type="button" data-close-stats data-i18n="close">Închide</button></div>
     </div>
   </div>
 
   <div class="modal hidden" id="newGameModal" role="dialog" aria-modal="true" aria-labelledby="newGameTitle">
     <div class="modal-backdrop" data-close-new-game></div>
     <div class="modal-card confirm-card">
-      <span class="eyebrow">New game</span>
-      <h2 id="newGameTitle">Start a new game?</h2>
-      <p>Your current game will be lost and the deck will be shuffled again.</p>
+      <span class="eyebrow" data-i18n="newGame">Joc nou</span>
+      <h2 id="newGameTitle" data-i18n="startNewGameQuestion">Începi un joc nou?</h2>
+      <p data-i18n="newGameWarning">Jocul curent va fi pierdut, iar pachetul va fi amestecat din nou.</p>
       <div class="confirm-actions">
-        <button class="secondary" id="cancelNewGameBtn" type="button">Cancel</button>
-        <button class="primary" id="confirmNewGameBtn" type="button">Start new game</button>
+        <button class="secondary" id="cancelNewGameBtn" type="button" data-i18n="cancel">Anulează</button>
+        <button class="primary" id="confirmNewGameBtn" type="button" data-i18n="startNewGame">Începe joc nou</button>
       </div>
     </div>
   </div>
@@ -171,18 +172,18 @@
     <div class="modal-backdrop"></div>
     <div class="modal-card scoreboard-card">
       <div class="winner-crown" aria-hidden="true">♛</div>
-      <span class="eyebrow">Game complete</span>
-      <h2 id="scoreTitle">Final score</h2>
-      <p class="winner-text" id="winnerText">You win!</p>
+      <span class="eyebrow" data-i18n="gameComplete">Joc terminat</span>
+      <h2 id="scoreTitle" data-i18n="finalScore">Scor final</h2>
+      <p class="winner-text" id="winnerText">Ai câștigat!</p>
 
       <div class="final-score-row">
-        <div><span>You</span><strong id="finalPlayerScore">0</strong></div>
+        <div><span data-i18n="you">Tu</span><strong id="finalPlayerScore">0</strong></div>
         <span class="versus">–</span>
-        <div><span>Computer</span><strong id="finalAiScore">0</strong></div>
+        <div><span data-i18n="computer">Computer</span><strong id="finalAiScore">0</strong></div>
       </div>
 
       <div class="score-breakdown" id="scoreBreakdown"></div>
-      <button class="primary wide" id="playAgainBtn" type="button">Play again</button>
+      <button class="primary wide" id="playAgainBtn" type="button" data-i18n="playAgain">Joacă din nou</button>
     </div>
   </div>
 

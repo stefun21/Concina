@@ -1406,3 +1406,166 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 @media (max-width: 720px) {
   .stats-grid.stats-grid-single { grid-template-columns: 1fr; width: min(220px, 100%); }
 }
+
+/* v13: language switch, last-card chips, mobile spacing fixes, consistent multi-select glow */
+.last-played-card {
+  min-width: 38px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(117, 231, 174, .22);
+  background: rgba(117, 231, 174, .08);
+  color: var(--accent) !important;
+  display: grid;
+  place-items: center;
+  font-size: 12px !important;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.language-button {
+  min-width: 62px;
+  letter-spacing: .02em;
+}
+
+/* Every selected table card gets the exact same visible selection treatment. */
+.table-cards .playing-card.selected {
+  z-index: 4;
+  box-shadow:
+    0 0 0 3px var(--accent),
+    0 0 20px rgba(117, 231, 174, .42),
+    0 13px 26px rgba(0, 0, 0, .30) !important;
+}
+
+@media (max-width: 720px) {
+  /* Keep five header controls on one row without overlaps. */
+  .topbar { gap: 5px; }
+  .brand-wrap { gap: 4px; }
+  .brand-wrap h1 { font-size: 15px; }
+  .top-actions { gap: 2px; }
+  .top-actions .icon-button,
+  .top-actions .primary {
+    min-width: 0;
+    min-height: 34px;
+    height: 34px;
+    padding-inline: 5px !important;
+    font-size: clamp(7.7px, 2.15vw, 9.2px) !important;
+    border-radius: 9px;
+    white-space: nowrap;
+  }
+  .language-button { flex: 0 0 42px !important; min-width: 42px !important; padding-inline: 3px !important; }
+
+  /* Captured totals stay hidden on mobile; last-card chips stay visible. */
+  #aiCapturedLabel,
+  #playerCapturedLabel { display: none !important; }
+
+  .opponent-badge span.last-played-card,
+  .player-info-line .player-badge span.last-played-card {
+    display: grid !important;
+    min-width: 34px;
+    height: 25px;
+    padding-inline: 7px;
+    border-radius: 8px;
+    font-size: 10px !important;
+    line-height: 1 !important;
+  }
+
+  .opponent-badge,
+  .player-info-line .player-badge {
+    gap: 8px;
+  }
+
+  /* Three mobile sections remain separate, with breathing room between section 2 and You. */
+  .game-table {
+    grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr);
+    row-gap: clamp(9px, 1.25dvh, 13px);
+  }
+
+  .center-section {
+    gap: clamp(10px, 1.25dvh, 13px);
+    padding-bottom: 2px;
+  }
+
+  .status-bar {
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .player-row {
+    padding-top: clamp(5px, .8dvh, 8px);
+  }
+
+  /* Turn label lives in the table title row, so it never sits against a table card. */
+  .center-zone { position: relative; }
+  .table-area { position: relative; }
+  .section-title {
+    position: relative;
+    min-height: 28px;
+    margin-bottom: clamp(8px, 1dvh, 11px);
+    padding-right: 0;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .turn-pill {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 0 2px 0 10px !important;
+    flex: 0 0 auto;
+  }
+
+  /* The deck remains anchored in its own left column, independent from the status panel. */
+  .deck-area {
+    justify-self: start;
+    align-self: center;
+    margin-left: 0;
+    padding-top: 18px;
+  }
+
+  /* Selected cards do not move; every selected table card gets identical glow. */
+  .player-hand .playing-card.selected { transform: none !important; }
+  .table-cards .playing-card.selected {
+    transform: none !important;
+    box-shadow:
+      0 0 0 3px var(--accent),
+      0 0 18px rgba(117, 231, 174, .46),
+      0 10px 22px rgba(0,0,0,.28) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .brand-wrap h1 { font-size: 14px; }
+  .top-actions .icon-button,
+  .top-actions .primary {
+    padding-inline: 4px !important;
+    font-size: clamp(7.2px, 2vw, 8.5px) !important;
+  }
+  .language-button { flex-basis: 39px !important; min-width: 39px !important; }
+  .section-title { margin-bottom: 9px; }
+  .player-row { padding-top: 6px; }
+}
+
+@media (max-width: 360px) {
+  .brand-wrap h1 { font-size: 13px; }
+  .top-actions { gap: 1px; }
+  .top-actions .icon-button,
+  .top-actions .primary {
+    padding-inline: 3px !important;
+    font-size: 7.1px !important;
+  }
+  .language-button { flex-basis: 36px !important; min-width: 36px !important; }
+  .last-played-card { min-width: 31px !important; padding-inline: 5px !important; }
+}
+
+@media (max-height: 700px) and (max-width: 720px) {
+  .game-table { row-gap: 5px; }
+  .center-section { gap: 5px; padding-bottom: 0; }
+  .section-title { min-height: 23px; margin-bottom: 5px; }
+  .turn-pill { font-size: 8px; padding: 3px 6px; }
+  .player-row { padding-top: 2px; }
+  .deck-area { padding-top: 12px; }
+}
+.last-played-card.red-suit { color: #ff8a91 !important; border-color: rgba(217,80,89,.35); background: rgba(217,80,89,.08); }
+.last-played-card.black-suit { color: var(--text) !important; }

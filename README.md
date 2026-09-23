@@ -10,6 +10,7 @@ A lightweight two-player browser card game built with plain HTML, CSS and JavaSc
 - No API keys
 - No paid services
 - No extra accounts required beyond GitHub/Vercel
+- All-time wins and language preference are stored locally with `localStorage`
 
 ## Run locally
 
@@ -20,80 +21,42 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 1. Create a GitHub repository.
 2. Upload the files from this folder to the repository root.
 3. In Vercel, choose **Add New Project** and import the repository.
-4. Framework preset: **Other** (Vercel usually detects this automatically).
-5. No build command is needed.
+4. Framework preset: **Other**.
+5. No build command or environment variables are needed.
 6. Deploy.
 
 ## Implemented rules
 
 - One standard 52-card deck, no jokers.
 - Human vs computer.
-- Four cards dealt to each player and four face-up cards placed on the table.
-- Ace is worth 1; 2–10 use their numeric value.
-- A numeric card captures any number of numeric table cards whose total exactly equals the card played. Example: 1 + 2 + 3 + 3 = 9, captured with a 9.
-- J/Q/K capture only a matching J/Q/K from the table.
-- If any capture is available in a player's hand, a capture must be made.
-- If no capture exists, one card must be placed on the table.
+- Four cards are dealt to each player and four cards start face up on the table.
+- Ace = 1; 2–10 use their numeric value.
+- A numeric card captures any number of numeric table cards whose total exactly equals the played card.
+- A Jack (J) captures every card currently on the table when used for a capture.
+- A Queen captures a Queen; a King captures a King.
+- A player may place a card on the table instead of capturing, even if a capture is available.
 - When both hands are empty, four new cards are dealt to each player while cards remain in the deck.
 - At the end, remaining table cards go to the player who made the last capture.
-- Most captured cards: 1 point. If tied, both players receive 1 point.
+- Most captured cards: 2 points. If tied, both players receive 2 points.
 - Most clubs: 1 point. If tied, both players receive 1 point.
 - 2 of clubs: 1 point.
 - 10 of diamonds: 2 points.
+
+## UI
+
+- Responsive desktop/mobile layout with no mobile page scrolling.
+- Scoring, How to Play, Stats, language switch and New Game are available from the header.
+- New Game asks for confirmation before resetting the match.
+- No capture hints are shown.
+- Multiple selected table cards use the same selection glow.
+- Each player has a compact last-played-card indicator showing only rank + suit.
+- Romanian/English switch. Romanian is the default on first visit; the last selected language is remembered locally.
+- All-time scoreboard stores games played and games won by You / Computer on the current browser/device.
 
 ## Files
 
 - `index.html` — game UI
 - `styles.css` — responsive visual design
-- `game.js` — game rules, AI and scoring
-- `vercel.json` — simple Vercel static configuration
+- `game.js` — rules, AI, language system, local stats and scoring
+- `vercel.json` — Vercel static configuration
 - `favicon.svg` — project icon
-
-- Scoring and How to Play remain available from the header.
-- New Game asks for confirmation before resetting the current match.
-
-
-## UI notes
-- Scoring and How to Play are available from buttons in the top bar and open in modals.
-- Round UI and round numbering are intentionally removed.
-- Player cards do not reveal capture hints or availability states.
-- Card dealing uses a short staggered animation.
-
-- Mobile layout fits the gameplay into the viewport without page scrolling.
-
-## Mobile layout
-The mobile layout is optimized for a single-screen game experience: compact spacing between hands and table, no page scrolling, non-overlapping card hitboxes, adaptive table-card density, and a single-row header with the game title and controls.
-
-### Mobile layout v6
-- Larger responsive hand and table cards on phones.
-- Gameplay content is vertically centered when the viewport has spare height.
-- Short screens automatically use a more compact card size.
-- Table cards switch to compact layouts sooner as the table grows.
-- Mobile tap targets and selected-card spacing were refined to avoid overlaps.
-
-## Mobile polish v7
-- Centered the Concina C mark precisely inside its square on mobile.
-- Status/info bar now grows for wrapped two-line messages instead of clipping them.
-- Increased vertical rhythm between opponent, table, status and player sections while keeping the whole scene centered and scroll-free.
-
-## Mobile v8
-- Fixed the mobile logo centering with a non-shrinking square mark.
-- Mobile captured counters are hidden for a cleaner layout.
-- Status panel always reserves two lines and vertically centers one-line messages.
-- Table cards are larger on mobile, with responsive dense modes to prevent overlap.
-
-
-## Mobile polish v9
-- Larger hand and table cards on mobile.
-- Computer and You now use matching single text badges.
-- Removed the duplicate YOU avatar on mobile.
-- Selected hand cards no longer move upward, preventing overlap with the You label.
-- Table cards switch to compact layouts earlier as the table grows.
-
-## v11 changes
-- Players may place a card on the table even when a capture is available.
-- Capture-hint messaging was removed.
-- On mobile, the deck stays anchored left and the turn indicator stays anchored right independently of the status panel.
-- Added an all-time Stats scoreboard on desktop and mobile, stored locally in the browser with `localStorage` (games played, player wins, computer wins).
-
-- v12: Stats is explicitly available on desktop and mobile; the all-time modal now shows only games played and games won by You / Computer. Draws, losses, and cumulative point totals were removed from the Stats view.
