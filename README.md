@@ -60,3 +60,9 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 - `game.js` — rules, AI, language system, local stats and scoring
 - `vercel.json` — Vercel static configuration
 - `favicon.svg` — project icon
+
+
+## v14 rules fix
+- A Jack clears the table, but never triggers a redeal by itself. The opponent continues by playing from their current hand.
+- Fresh hands are dealt only after both players have no cards left.
+- Scoring details remain in the dedicated Scoring modal and were removed from How to Play.

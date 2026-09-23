@@ -37,7 +37,7 @@
       ruleCaptureTitle: 'Captură',
       ruleCaptureBody: 'Cu A–10 poți lua oricâte cărți numerice de pe masă dacă suma lor este exact egală cu valoarea cărții jucate. Asul valorează 1.',
       ruleJackTitle: 'Valet',
-      ruleJackBody: 'Valetul (J) ia toate cărțile aflate pe masă atunci când este folosit pentru captură.',
+      ruleJackBody: 'Valetul (J) ia toate cărțile aflate pe masă. Golirea mesei cu J nu pornește o împărțire nouă: adversarul își joacă următoarea carte din mână, iar cărți noi se împart doar când ambele mâini sunt goale.',
       ruleFacesTitle: 'Damă și Rege',
       ruleFacesBody: 'Dama ia doar o Damă, iar Regele ia doar un Rege de pe masă.',
       rulePlaceTitle: 'Pune o carte',
@@ -83,7 +83,7 @@
       ruleCaptureTitle: 'Capture',
       ruleCaptureBody: 'With A–10, you may take any number of numeric table cards if their total exactly matches the card you play. Ace = 1.',
       ruleJackTitle: 'Jack',
-      ruleJackBody: 'A Jack (J) takes every card on the table when it is used to capture.',
+      ruleJackBody: 'A Jack (J) takes every card on the table. Clearing the table with a Jack does not trigger a new deal: the opponent plays the next card from their hand, and fresh cards are dealt only when both hands are empty.',
       ruleFacesTitle: 'Queen and King',
       ruleFacesBody: 'A Queen captures only a Queen, and a King captures only a King from the table.',
       rulePlaceTitle: 'Place a card',
@@ -129,7 +129,7 @@
     lastPlayed: { player: null, ai: null }, language: loadLanguage(),
     statusKey: 'selectHand', statusParams: {},
     animateHandsDeal: false, animateTableDeal: false, busy: false, gameOver: false,
-    pendingTimer: null, pendingAction: null,
+    pendingTimer: null, pendingAction: null, pendingJackResponse: null,
   };
 
   const els = {
@@ -292,6 +292,7 @@
     state.busy = false;
     state.gameOver = false;
     state.pendingAction = null;
+    state.pendingJackResponse = null;
     els.rulesModal.classList.add('hidden');
     els.scoringModal.classList.add('hidden');
     els.statsModal.classList.add('hidden');
@@ -431,9 +432,11 @@
 
     const played = removeHandCard('player', handCard.id);
     state.lastPlayed.player = played;
+    if (state.pendingJackResponse === 'player') state.pendingJackResponse = null;
     if (validCapture) {
       const taken = selectedTableCards();
       captureCards('player', played, taken);
+      if (played.rank === 'J') state.pendingJackResponse = 'ai';
       setStatus('youCaptured', { cards: taken.map(cardLabel).join(', '), played: cardLabel(played) });
     } else {
       discardCard(played);
@@ -488,8 +491,10 @@
 
     const played = removeHandCard('ai', move.card.id);
     state.lastPlayed.ai = played;
+    if (state.pendingJackResponse === 'ai') state.pendingJackResponse = null;
     if (move.type === 'capture') {
       captureCards('ai', played, move.combo);
+      if (played.rank === 'J') state.pendingJackResponse = 'player';
       setStatus('computerCaptured', { cards: move.combo.map(cardLabel).join(', '), played: cardLabel(played) });
     } else {
       discardCard(played);
@@ -503,6 +508,24 @@
   }
 
   function afterTurnCycle() {
+    if (state.pendingJackResponse === 'player' && state.hands.player.length > 0) {
+      state.turn = 'player';
+      state.busy = false;
+      setStatus('yourTurnPrompt');
+      render();
+      return;
+    }
+    if (state.pendingJackResponse === 'ai' && state.hands.ai.length > 0) {
+      state.turn = 'ai';
+      state.busy = true;
+      render();
+      scheduleAction('aiTurn', 650);
+      return;
+    }
+    if (state.pendingJackResponse && state.hands[state.pendingJackResponse].length === 0) {
+      state.pendingJackResponse = null;
+    }
+
     if (state.hands.player.length === 0 && state.hands.ai.length === 0) {
       if (state.deck.length > 0) {
         dealHands();
