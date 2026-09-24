@@ -32,15 +32,15 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 - Four cards are dealt to each player and four cards start face up on the table.
 - Ace = 1; 2–10 use their numeric value.
 - A numeric card captures any number of numeric table cards whose total exactly equals the played card.
-- A Jack (J) captures every card currently on the table when used for a capture.
+- Selecting a Jack (J) automatically targets every card currently on the table; playing it captures them all.
 - A Queen captures a Queen; a King captures a King.
 - A player may place a card on the table instead of capturing, even if a capture is available.
 - When both hands are empty, four new cards are dealt to each player while cards remain in the deck.
 - At the end, remaining table cards go to the player who made the last capture.
-- Most captured cards: 2 points. If tied, both players receive 2 points.
-- Most clubs: 1 point. If tied, both players receive 1 point.
+- Most captured cards: 2 points. If tied, nobody receives these 2 points.
+- Most clubs: 1 point. If tied, nobody receives this point.
 - 2 of clubs: 1 point.
-- 10 of diamonds: 2 points.
+- 10 of diamonds: 1 point.
 
 ## UI
 
@@ -66,3 +66,13 @@ Open `index.html` directly in a browser, or serve the folder with any simple sta
 - A Jack clears the table, but never triggers a redeal by itself. The opponent continues by playing from their current hand.
 - Fresh hands are dealt only after both players have no cards left.
 - Scoring details remain in the dedicated Scoring modal and were removed from How to Play.
+
+
+## v15 rule/UI updates
+- Selecting a Jack automatically targets every card on the table; pressing Play card captures them all.
+- The textual turn pill was removed. The active player's identity badge is highlighted instead.
+- 10 of Diamonds is worth 1 point.
+- Most Cards is worth 2 points; tied majority categories award no points.
+- The RO/EN switch visually highlights the active language and keeps the saved language preference.
+- Selected hand cards and selected table cards use a consistent green glow.
+- Mobile status/player spacing was hardened to prevent the status panel, player label, and last-played chip from overlapping.

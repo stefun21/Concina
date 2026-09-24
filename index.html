@@ -56,7 +56,7 @@
             <div class="table-area">
               <div class="section-title">
                 <span data-i18n="table">Masă</span>
-                <span id="turnPill" class="turn-pill">Rândul tău</span>
+                <span id="turnPill" class="turn-pill hidden-turn-text" aria-hidden="true"></span>
               </div>
               <div class="table-cards" id="tableCards" aria-label="Cards on table"></div>
               <div id="emptyTable" class="empty-table hidden" data-i18n="emptyTable">Nu sunt cărți pe masă</div>
@@ -122,10 +122,10 @@
         <button class="close-button" type="button" data-close-scoring aria-label="Close scoring">×</button>
       </div>
       <div class="scoring-rules-list">
-        <div class="score-rule"><span class="score-icon">2</span><span data-i18n="scoreMostCards">Cele mai multe cărți capturate</span><strong data-i18n="scoreMostCardsTie">egalitate: ambii +2</strong></div>
-        <div class="score-rule"><span class="score-icon">1</span><span data-i18n="scoreMostClubs">Cele mai multe trefle</span><strong data-i18n="scoreMostClubsTie">egalitate: ambii +1</strong></div>
+        <div class="score-rule"><span class="score-icon">2</span><span data-i18n="scoreMostCards">Cele mai multe cărți capturate</span></div>
+        <div class="score-rule"><span class="score-icon">1</span><span data-i18n="scoreMostClubs">Cele mai multe trefle</span></div>
         <div class="score-rule"><span class="mini-card black">2♣</span><span data-i18n="scoreTwoClubs">Doi de trefla</span><strong>+1</strong></div>
-        <div class="score-rule"><span class="mini-card red">10♦</span><span data-i18n="scoreTenDiamonds">Zece de caro</span><strong>+2</strong></div>
+        <div class="score-rule"><span class="mini-card red">10♦</span><span data-i18n="scoreTenDiamonds">Zece de caro</span><strong>+1</strong></div>
       </div>
       <div class="modal-footer"><button class="primary" type="button" data-close-scoring data-i18n="gotIt">Am înțeles</button></div>
     </div>

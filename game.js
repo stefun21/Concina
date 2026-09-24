@@ -37,7 +37,7 @@
       ruleCaptureTitle: 'Captură',
       ruleCaptureBody: 'Cu A–10 poți lua oricâte cărți numerice de pe masă dacă suma lor este exact egală cu valoarea cărții jucate. Asul valorează 1.',
       ruleJackTitle: 'Valet',
-      ruleJackBody: 'Valetul (J) ia toate cărțile aflate pe masă. Golirea mesei cu J nu pornește o împărțire nouă: adversarul își joacă următoarea carte din mână, iar cărți noi se împart doar când ambele mâini sunt goale.',
+      ruleJackBody: 'Când selectezi un Valet (J), toate cărțile de pe masă sunt pregătite automat pentru captură. Apasă Joacă cartea pentru a le lua pe toate. Golirea mesei cu J nu pornește o împărțire nouă: adversarul își joacă următoarea carte din mână.',
       ruleFacesTitle: 'Damă și Rege',
       ruleFacesBody: 'Dama ia doar o Damă, iar Regele ia doar un Rege de pe masă.',
       rulePlaceTitle: 'Pune o carte',
@@ -47,16 +47,16 @@
       ruleFinalTitle: 'Finalul mesei',
       ruleFinalBody: 'După ultimele mâini, cărțile rămase pe masă merg la jucătorul care a făcut ultima captură.',
       ruleScoringTitle: 'Punctaj',
-      ruleScoringBody: 'Cele mai multe cărți = 2 puncte, cele mai multe trefle = 1 punct, 2♣ = 1 punct, 10♦ = 2 puncte. La egalitate pentru cele mai multe cărți sau trefle, ambii jucători primesc punctele categoriei.',
-      scoreMostCards: 'Cele mai multe cărți capturate', scoreMostCardsTie: 'egalitate: ambii +2',
-      scoreMostClubs: 'Cele mai multe trefle', scoreMostClubsTie: 'egalitate: ambii +1',
+      ruleScoringBody: 'Cele mai multe cărți = 2 puncte, cele mai multe trefle = 1 punct, 2♣ = 1 punct, 10♦ = 1 punct. La egalitate într-o categorie de majoritate, nimeni nu primește punctele categoriei.',
+      scoreMostCards: 'Cele mai multe cărți capturate', scoreMostCardsTie: '',
+      scoreMostClubs: 'Cele mai multe trefle', scoreMostClubsTie: '',
       scoreTwoClubs: 'Doi de treflă', scoreTenDiamonds: 'Zece de caro',
       selectHand: 'Alege o carte din mână.', cardSelected: '{card} selectată.',
       tableSelectedOne: '1 carte de pe masă selectată.', tableSelectedMany: '{count} cărți de pe masă selectate.',
       invalidSelection: 'Cărțile selectate de pe masă nu se potrivesc cu cartea aleasă.',
       youCaptured: 'Ai luat {cards} cu {played}.', youPlaced: 'Ai pus {played} pe masă.',
       computerCaptured: 'Computerul a luat {cards} cu {played}.', computerPlaced: 'Computerul a pus {played} pe masă.',
-      newCardsDealt: 'Fiecare jucător a primit 4 cărți noi.', yourTurnPrompt: 'Rândul tău. Alege o carte din mână.',
+      newCardsDealt: 'Fiecare jucător a primit 4 cărți noi.', yourTurnPrompt: 'Alege o carte din mână.',
       cardSelectedShort: 'Carte selectată', chooseHandCard: 'Alege o carte',
       yourTurn: 'Rândul tău', computerTurn: 'Rândul computerului',
       capturedCount: '{count} cărți capturate', hiddenCard: 'Carte ascunsă',
@@ -83,7 +83,7 @@
       ruleCaptureTitle: 'Capture',
       ruleCaptureBody: 'With A–10, you may take any number of numeric table cards if their total exactly matches the card you play. Ace = 1.',
       ruleJackTitle: 'Jack',
-      ruleJackBody: 'A Jack (J) takes every card on the table. Clearing the table with a Jack does not trigger a new deal: the opponent plays the next card from their hand, and fresh cards are dealt only when both hands are empty.',
+      ruleJackBody: 'When you select a Jack (J), every table card is automatically prepared for capture. Press Play card to take them all. Clearing the table with a Jack does not trigger a new deal: the opponent plays the next card from their hand.',
       ruleFacesTitle: 'Queen and King',
       ruleFacesBody: 'A Queen captures only a Queen, and a King captures only a King from the table.',
       rulePlaceTitle: 'Place a card',
@@ -93,16 +93,16 @@
       ruleFinalTitle: 'Final table',
       ruleFinalBody: 'After the final hands are played, remaining table cards go to the player who made the last capture.',
       ruleScoringTitle: 'Scoring',
-      ruleScoringBody: 'Most cards = 2 points, most clubs = 1 point, 2♣ = 1 point, 10♦ = 2 points. If most cards or most clubs is tied, both players receive the category points.',
-      scoreMostCards: 'Most captured cards', scoreMostCardsTie: 'ties: both +2',
-      scoreMostClubs: 'Most clubs', scoreMostClubsTie: 'ties: both +1',
+      ruleScoringBody: 'Most cards = 2 points, most clubs = 1 point, 2♣ = 1 point, 10♦ = 1 point. If a majority category is tied, nobody receives its points.',
+      scoreMostCards: 'Most captured cards', scoreMostCardsTie: '',
+      scoreMostClubs: 'Most clubs', scoreMostClubsTie: '',
       scoreTwoClubs: 'Two of clubs', scoreTenDiamonds: 'Ten of diamonds',
       selectHand: 'Select a card from your hand.', cardSelected: '{card} selected.',
       tableSelectedOne: '1 table card selected.', tableSelectedMany: '{count} table cards selected.',
       invalidSelection: 'Those table cards do not match the selected card.',
       youCaptured: 'You captured {cards} with {played}.', youPlaced: 'You placed {played} on the table.',
       computerCaptured: 'Computer captured {cards} with {played}.', computerPlaced: 'Computer placed {played} on the table.',
-      newCardsDealt: 'Four new cards have been dealt to each player.', yourTurnPrompt: 'Your turn. Select a card from your hand.',
+      newCardsDealt: 'Four new cards have been dealt to each player.', yourTurnPrompt: 'Select a card from your hand.',
       cardSelectedShort: 'Card selected', chooseHandCard: 'Choose a hand card',
       yourTurn: 'Your turn', computerTurn: 'Computer turn',
       capturedCount: '{count} captured', hiddenCard: 'Hidden card',
@@ -170,7 +170,8 @@
       const key = el.dataset.i18n;
       if (I18N[state.language][key]) el.textContent = t(key);
     });
-    els.languageBtn.textContent = 'RO/EN';
+    els.languageBtn.innerHTML = `<span class="lang-option${state.language === 'ro' ? ' active' : ''}">RO</span><span class="lang-divider">/</span><span class="lang-option${state.language === 'en' ? ' active' : ''}">EN</span>`;
+    els.languageBtn.dataset.activeLanguage = state.language;
     els.languageBtn.setAttribute('aria-label', t('languageLabel'));
     els.aiHand.setAttribute('aria-label', t('aiHandAria'));
     els.playerHand.setAttribute('aria-label', t('playerHandAria'));
@@ -368,8 +369,14 @@
     state.selectedHandId = state.selectedHandId === cardId ? null : cardId;
     state.selectedTableIds.clear();
     const card = selectedHandCard();
-    if (!card) setStatus('selectHand');
-    else setStatus('cardSelected', { card: cardLabel(card) });
+    if (!card) {
+      setStatus('selectHand');
+    } else {
+      if (card.rank === 'J' && state.table.length) {
+        state.selectedTableIds = new Set(state.table.map(tableCard => tableCard.id));
+      }
+      setStatus('cardSelected', { card: cardLabel(card) });
+    }
     render();
   }
 
@@ -380,8 +387,7 @@
     if (!card) return;
 
     if (handCard.rank === 'J') {
-      if (state.selectedTableIds.size === state.table.length) state.selectedTableIds.clear();
-      else state.selectedTableIds = new Set(state.table.map(c => c.id));
+      state.selectedTableIds = new Set(state.table.map(c => c.id));
     } else if (handCard.value > 10) {
       state.selectedTableIds.clear();
       if (card.rank === handCard.rank) state.selectedTableIds.add(cardId);
@@ -458,7 +464,7 @@
       for (const combo of combos) {
         const clubs = combo.filter(c => c.suit === 'clubs').length + (card.suit === 'clubs' ? 1 : 0);
         const special = combo.some(c => c.rank === '2' && c.suit === 'clubs') ? 6 : 0;
-        const tenDiamond = combo.some(c => c.rank === '10' && c.suit === 'diamonds') ? 12 : 0;
+        const tenDiamond = combo.some(c => c.rank === '10' && c.suit === 'diamonds') ? 6 : 0;
         const jackSweep = card.rank === 'J' ? Math.max(2, combo.length * 2) : 0;
         const score = combo.length * 2 + clubs + special + tenDiamond + jackSweep + Math.random();
         options.push({ card, combo, score });
@@ -472,9 +478,9 @@
 
     const sorted = [...state.hands.ai].sort((a, b) => {
       const aPenalty = (a.suit === 'clubs' ? 3 : 0) + (a.rank === '2' && a.suit === 'clubs' ? 8 : 0)
-        + (a.rank === '10' && a.suit === 'diamonds' ? 12 : 0) + (a.rank === 'J' ? 5 : 0);
+        + (a.rank === '10' && a.suit === 'diamonds' ? 6 : 0) + (a.rank === 'J' ? 5 : 0);
       const bPenalty = (b.suit === 'clubs' ? 3 : 0) + (b.rank === '2' && b.suit === 'clubs' ? 8 : 0)
-        + (b.rank === '10' && b.suit === 'diamonds' ? 12 : 0) + (b.rank === 'J' ? 5 : 0);
+        + (b.rank === '10' && b.suit === 'diamonds' ? 6 : 0) + (b.rank === 'J' ? 5 : 0);
       return aPenalty - bPenalty || b.value - a.value;
     });
     return { type: 'discard', card: sorted[0] };
@@ -569,13 +575,13 @@
 
     if (p.length > a.length) { playerScore += 2; rows.push({ key: 'mostCardsCategory', p: `+2 (${p.length})`, a: `0 (${a.length})` }); }
     else if (a.length > p.length) { aiScore += 2; rows.push({ key: 'mostCardsCategory', p: `0 (${p.length})`, a: `+2 (${a.length})` }); }
-    else { playerScore += 2; aiScore += 2; rows.push({ key: 'mostCardsCategory', p: `+2 ${t('tie')} (${p.length})`, a: `+2 ${t('tie')} (${a.length})` }); }
+    else { rows.push({ key: 'mostCardsCategory', p: `0 (${p.length})`, a: `0 (${a.length})` }); }
 
     const pClubs = countSuit(p, 'clubs');
     const aClubs = countSuit(a, 'clubs');
     if (pClubs > aClubs) { playerScore += 1; rows.push({ key: 'mostClubsCategory', p: `+1 (${pClubs})`, a: `0 (${aClubs})` }); }
     else if (aClubs > pClubs) { aiScore += 1; rows.push({ key: 'mostClubsCategory', p: `0 (${pClubs})`, a: `+1 (${aClubs})` }); }
-    else { playerScore += 1; aiScore += 1; rows.push({ key: 'mostClubsCategory', p: `+1 ${t('tie')} (${pClubs})`, a: `+1 ${t('tie')} (${aClubs})` }); }
+    else { rows.push({ key: 'mostClubsCategory', p: `0 (${pClubs})`, a: `0 (${aClubs})` }); }
 
     const pTwoClubs = hasCard(p, '2', 'clubs');
     const aTwoClubs = hasCard(a, '2', 'clubs');
@@ -585,9 +591,9 @@
 
     const pTenDiamonds = hasCard(p, '10', 'diamonds');
     const aTenDiamonds = hasCard(a, '10', 'diamonds');
-    if (pTenDiamonds) playerScore += 2;
-    if (aTenDiamonds) aiScore += 2;
-    rows.push({ key: 'tenDiamondsCategory', p: pTenDiamonds ? '+2' : '0', a: aTenDiamonds ? '+2' : '0' });
+    if (pTenDiamonds) playerScore += 1;
+    if (aTenDiamonds) aiScore += 1;
+    rows.push({ key: 'tenDiamondsCategory', p: pTenDiamonds ? '+1' : '0', a: aTenDiamonds ? '+1' : '0' });
 
     return { playerScore, aiScore, rows };
   }
@@ -683,8 +689,18 @@
     els.playerCapturedLabel.textContent = t('capturedCount', { count: state.captured.player.length });
     els.aiCapturedLabel.textContent = t('capturedCount', { count: state.captured.ai.length });
     const aiTurnActive = state.turn === 'ai' || state.busy;
-    els.turnPill.textContent = aiTurnActive ? t('computerTurn') : t('yourTurn');
-    els.turnPill.classList.toggle('ai', aiTurnActive);
+    const playerBadge = document.querySelector('.player-info-line .player-badge');
+    const opponentBadge = document.querySelector('.opponent-badge');
+    if (playerBadge) {
+      playerBadge.classList.toggle('turn-active', !aiTurnActive && !state.gameOver);
+      playerBadge.setAttribute('aria-current', !aiTurnActive && !state.gameOver ? 'true' : 'false');
+    }
+    if (opponentBadge) {
+      opponentBadge.classList.toggle('turn-active', aiTurnActive && !state.gameOver);
+      opponentBadge.setAttribute('aria-current', aiTurnActive && !state.gameOver ? 'true' : 'false');
+    }
+    els.turnPill.textContent = '';
+    els.turnPill.classList.add('hidden-turn-text');
   }
 
   function render() {

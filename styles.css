@@ -1569,3 +1569,120 @@ button:disabled { cursor: not-allowed; opacity: .42; }
 }
 .last-played-card.red-suit { color: #ff8a91 !important; border-color: rgba(217,80,89,.35); background: rgba(217,80,89,.08); }
 .last-played-card.black-suit { color: var(--text) !important; }
+
+
+/* v15: turn focus, selection clarity, language state, and mobile collision-proof spacing */
+.hidden-turn-text { display: none !important; }
+
+.player-badge {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 5px 8px;
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.player-badge.turn-active {
+  border-color: rgba(117, 231, 174, .58);
+  background: rgba(117, 231, 174, .10);
+  box-shadow: 0 0 0 2px rgba(117, 231, 174, .10), 0 0 22px rgba(117, 231, 174, .13);
+}
+
+.language-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.language-button .lang-option {
+  color: var(--muted);
+  opacity: .62;
+  font-weight: 800;
+  transition: color .18s ease, opacity .18s ease, background .18s ease;
+}
+.language-button .lang-divider { color: rgba(255,255,255,.30); font-weight: 700; }
+.language-button .lang-option.active {
+  color: #06231a;
+  opacity: 1;
+  background: var(--accent);
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+
+/* Hand selection must be as obvious as table selection without moving the card. */
+.player-hand .playing-card.selected {
+  z-index: 5;
+  transform: none !important;
+  box-shadow:
+    0 0 0 3px var(--accent),
+    0 0 22px rgba(117, 231, 174, .48),
+    0 13px 28px rgba(0,0,0,.30) !important;
+}
+
+@media (max-width: 720px) {
+  /* Remove the old turn-label lane and use that space for safe separation. */
+  .section-title {
+    min-height: 16px !important;
+    margin-bottom: clamp(7px, 1dvh, 10px) !important;
+    padding-right: 0 !important;
+  }
+
+  /* The status panel owns a fixed two-line slot; player identity starts below it. */
+  .center-section {
+    gap: clamp(9px, 1.25dvh, 12px) !important;
+    margin-bottom: clamp(12px, 1.8dvh, 18px);
+  }
+  .status-bar {
+    min-height: 48px !important;
+    height: 48px !important;
+    padding: 7px 12px !important;
+    line-height: 1.25 !important;
+    overflow: hidden;
+    align-content: center;
+    margin: 0 !important;
+  }
+  .player-row {
+    padding-top: 0 !important;
+    gap: clamp(9px, 1.25dvh, 12px) !important;
+  }
+  .player-info-line {
+    min-height: 34px !important;
+    margin: 0 0 2px !important;
+    position: relative;
+    z-index: 3;
+  }
+  .player-info-line .selection-help { display: none !important; }
+  .player-info-line .player-badge,
+  .opponent-badge {
+    padding: 4px 8px;
+    min-height: 32px;
+  }
+
+  /* Give the last-played chip its own stable room inside the identity badge. */
+  .player-info-line .player-badge,
+  .opponent-badge {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+  }
+  .player-info-line .player-badge .avatar,
+  .opponent-badge .avatar { display: none !important; }
+  .player-info-line .player-badge > div,
+  .opponent-badge > div { display: block !important; }
+  .player-info-line .player-badge strong,
+  .opponent-badge strong { display: block; white-space: nowrap; }
+  .player-info-line .player-badge span.last-played-card,
+  .opponent-badge span.last-played-card {
+    position: static !important;
+    margin: 0 !important;
+    flex: none;
+  }
+}
+
+@media (max-height: 700px) and (max-width: 720px) {
+  .center-section { margin-bottom: 8px; gap: 6px !important; }
+  .status-bar { min-height: 42px !important; height: 42px !important; padding-block: 5px !important; }
+  .player-row { gap: 6px !important; }
+  .player-info-line { min-height: 30px !important; }
+}
